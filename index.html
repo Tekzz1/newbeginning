@@ -14,34 +14,44 @@
         text-align: center;
         padding: 40px 20px;
       }
+
       header {
-        background: url("https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png") no-repeat center center;
-        background-size: cover;
-        padding: 60px 20px;
-        color: white;
+        padding: 40px 20px;
       }
+
+      header img {
+        max-width: 100%;
+        height: auto;
+      }
+
       h1 {
         font-size: 3em;
         margin-bottom: 10px;
       }
+
       .subtitle {
         font-size: 1.5em;
+        margin-top: 10px;
         margin-bottom: 30px;
         color: #ccc;
       }
+
       .info {
         margin: 20px auto;
         max-width: 700px;
         text-align: left;
       }
+
       .info strong {
         color: #ff4444;
       }
+
       .mod-list {
         text-align: left;
         max-width: 700px;
         margin: 20px auto;
       }
+
       .discord-btn {
         background-color: #5865F2;
         color: white;
@@ -53,11 +63,13 @@
         display: inline-block;
         margin-top: 30px;
       }
+
       footer {
         margin-top: 40px;
         font-size: 0.9em;
         color: #888;
       }
+
       .quote-box {
         background-color: #1a1a1a;
         padding: 20px;
@@ -67,6 +79,7 @@
         margin: 40px auto;
         color: #ccc;
       }
+
       .gallery {
         display: flex;
         flex-wrap: wrap;
@@ -74,27 +87,55 @@
         gap: 15px;
         margin-top: 40px;
       }
+
       .gallery img {
         width: 300px;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        transition: transform 0.3s ease;
       }
+
+      .gallery img:hover {
+        transform: scale(1.03);
+      }
+
       @media (max-width: 768px) {
-        .gallery img {
-          width: 90%;
+        body {
+          padding: 20px 10px;
         }
+
+        h1 {
+          font-size: 2em;
+        }
+
+        .subtitle {
+          font-size: 1.2em;
+        }
+
         .info,
         .mod-list,
         .quote-box {
           text-align: center;
+          padding: 0 10px;
+        }
+
+        .gallery img {
+          width: 100%;
+          max-width: 100%;
+          height: auto;
+        }
+
+        .discord-btn {
+          width: 90%;
+          font-size: 1em;
         }
       }
     </style>
   </head>
   <body>
     <header>
-      <h1></h1>
-      <div class="subtitle"><3</div>
+      <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="DayZ New Beginning Logo" />
+      <div class="subtitle">🌿 DayZ New Beginning – Survive if you can! 🌿</div>
     </header>
 
     <div class="info">
@@ -122,6 +163,21 @@
         <li>CodeLock – advanced base locking system</li>
         <li>LightObjects – extra light sources</li>
       </ul>
+
+      <h3>🔑 How to join the server:</h3>
+      <p><strong>Step 1:</strong> Open DayZ or DayZ Launcher</p>
+      <p><strong>Step 2:</strong> Click on "Connect via IP"</p>
+      <p><strong>IP:</strong> 85.190.162.86</p>
+      <p><strong>Port:</strong> 10300</p>
+      <p><strong>Step 3:</strong> Load the required mods (DayZ Launcher will do this automatically for you)</p>
+
+      <div style="margin-top: 20px;">
+        <img src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png" alt="Instrukcja logowania" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);" />
+      </div>
+
+      <p style="margin-top: 15px;">
+        👉 <a href="https://dayzsalauncher.com/" target="_blank" style="color: #58a6ff;">Pobierz DayZ Launcher</a> – łatwe dołączanie i zarządzanie modami
+      </p>
     </div>
 
     <div class="info">
@@ -133,12 +189,12 @@
       "There are no second chances in Chernarus or Livonia... Only the strong, clever, and lucky survive. Choose your path wisely."
     </div>
 
-    <div class="gallery"><a href=""></a>
-      <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" />
-      <img src="https://i.postimg.cc/HsvgkWZC/221100-37.jpg" />
-      <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" />
-      <img src="https://i.postimg.cc/RhspTFy1/Zrzut-ekranu-2025-04-05-132441.png" />
-      <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" />
+    <div class="gallery">
+      <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
+      <img src="https://i.postimg.cc/HsvgkWZC/221100-37.jpg" alt="Screenshot 2" />
+      <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
+      <img src="https://i.postimg.cc/RhspTFy1/Zrzut-ekranu-2025-04-05-132441.png" alt="Screenshot 4" />
+      <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
     </div>
 
     <a class="discord-btn" href="https://discord.gg/bPvfNSDDD6" target="_blank">💬 Join our Discord</a>
