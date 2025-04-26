@@ -97,10 +97,18 @@
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         transition: transform 0.3s ease;
+        cursor: pointer;
       }
 
       .gallery img:hover {
         transform: scale(1.03);
+      }
+
+      /* Powiększony obrazek */
+      .gallery img.enlarged {
+        transform: scale(2);
+        z-index: 1000;
+        position: relative;
       }
 
       @media (max-width: 768px) {
@@ -135,7 +143,20 @@
         }
       }
     </style>
+
+    <script>
+      // Skrypt do powiększania zdjęć po kliknięciu
+      document.addEventListener("DOMContentLoaded", function () {
+        const images = document.querySelectorAll(".gallery img");
+        images.forEach((img) => {
+          img.addEventListener("click", () => {
+            img.classList.toggle("enlarged");
+          });
+        });
+      });
+    </script>
   </head>
+
   <body>
     <header>
       <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="DayZ New Beginning Logo" />
@@ -153,7 +174,8 @@
         <strong>🗺️ Map:</strong> Livonia<br />
         <strong>🎮 Platform:</strong> PC<br />
         <strong>⚙ Server Version:</strong> 1.27.159420<br />
-        <strong>📌 YT channel:</strong> https://www.youtube.com/@tekzz-1
+        <strong>📌 YT channel:</strong> 
+        <a href="https://www.youtube.com/@tekzz-1" target="_blank" style="color: #58a6ff;">YouTube Tekzz-1</a>
       </p>
     </div>
 
@@ -194,9 +216,9 @@
 
     <div class="gallery">
       <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
-      <img src="https://i.postimg.cc/HsvgkWZC/221100-37.jpg" alt="Screenshot 2" />
+      <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
       <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
-      <img src="https://i.postimg.cc/RhspTFy1/Zrzut-ekranu-2025-04-05-132441.png" alt="Screenshot 4" />
+      <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
       <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
     </div>
 
