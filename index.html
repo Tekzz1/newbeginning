@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>DayZ New Beginning</title>
@@ -10,223 +10,239 @@
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
     <style>
-      body {
-        margin: 0;
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background-color: #0d0d0d;
-        color: #f0f0f0;
-        text-align: center;
-        padding: 40px 20px;
-      }
-
-      header {
-        padding: 40px 20px;
-      }
-
-      header img {
-        max-width: 100%;
-        height: auto;
-      }
-
-      h1 {
-        font-size: 3em;
-        margin-bottom: 10px;
-      }
-
-      .subtitle {
-        font-size: 1.5em;
-        margin-top: 10px;
-        margin-bottom: 30px;
-        color: #ccc;
-      }
-
-      .info {
-        margin: 20px auto;
-        max-width: 700px;
-        text-align: left;
-      }
-
-      .info strong {
-        color: #ff4444;
-      }
-
-      .mod-list {
-        text-align: left;
-        max-width: 700px;
-        margin: 20px auto;
-      }
-
-      .discord-btn {
-        background-color: #5865F2;
-        color: white;
-        padding: 15px 25px;
-        border: none;
-        border-radius: 10px;
-        text-decoration: none;
-        font-size: 1.2em;
-        display: inline-block;
-        margin-top: 30px;
-      }
-
-      footer {
-        margin-top: 40px;
-        font-size: 0.9em;
-        color: #888;
-      }
-
-      .quote-box {
-        background-color: #1a1a1a;
-        padding: 20px;
-        border-left: 4px solid #ff4444;
-        font-style: italic;
-        max-width: 700px;
-        margin: 40px auto;
-        color: #ccc;
-      }
-
-      .gallery {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        margin-top: 40px;
-      }
-
-      .gallery img {
-        width: 300px;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        transition: transform 0.3s ease;
-        cursor: pointer;
-      }
-
-      .gallery img:hover {
-        transform: scale(1.03);
-      }
-
-      /* Powiększony obrazek */
-      .gallery img.enlarged {
-        transform: scale(2);
-        z-index: 1000;
-        position: relative;
-      }
-
-      @media (max-width: 768px) {
         body {
-          padding: 20px 10px;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: url('https://i.postimg.cc/mrfyKzph/grayscale-graphic-of-woods-dayz-desktop-y9r406z2bprg56a0.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: #f0f0f0;
+            text-align: center;
+            padding: 40px 20px;
+            position: relative;
+            overflow-x: hidden;
         }
 
+            /* Przyciemnienie tła */
+            body::before {
+                content: "";
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5); /* 50% czarne przyciemnienie */
+                z-index: -1;
+            }
+
+        header {
+            padding: 40px 20px;
+        }
+
+            header img {
+                max-width: 100%;
+                height: auto;
+            }
+
         h1 {
-          font-size: 2em;
+            font-size: 3em;
+            margin-bottom: 10px;
         }
 
         .subtitle {
-          font-size: 1.2em;
+            font-size: 1.5em;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            color: #ccc;
         }
 
-        .info,
-        .mod-list,
-        .quote-box {
-          text-align: center;
-          padding: 0 10px;
+        .info {
+            margin: 20px auto;
+            max-width: 700px;
+            text-align: left;
         }
 
-        .gallery img {
-          width: 100%;
-          max-width: 100%;
-          height: auto;
+            .info strong {
+                color: #ff4444;
+            }
+
+        .mod-list {
+            text-align: left;
+            max-width: 700px;
+            margin: 20px auto;
         }
 
         .discord-btn {
-          width: 90%;
-          font-size: 1em;
+            background-color: #5865F2;
+            color: white;
+            padding: 15px 25px;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            font-size: 1.2em;
+            display: inline-block;
+            margin-top: 30px;
         }
-      }
+
+        footer {
+            margin-top: 40px;
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        .quote-box {
+            background-color: rgba(26, 26, 26, 0.8);
+            padding: 20px;
+            border-left: 4px solid #ff4444;
+            font-style: italic;
+            max-width: 700px;
+            margin: 40px auto;
+            color: #ccc;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+            .gallery img {
+                width: 300px;
+                border-radius: 10px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+                transition: transform 0.3s ease;
+                cursor: pointer;
+            }
+
+                .gallery img:hover {
+                    transform: scale(1.03);
+                }
+
+                /* Powiększony obrazek */
+                .gallery img.enlarged {
+                    transform: scale(2);
+                    z-index: 1000;
+                    position: relative;
+                }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .subtitle {
+                font-size: 1.2em;
+            }
+
+            .info,
+            .mod-list,
+            .quote-box {
+                text-align: center;
+                padding: 0 10px;
+            }
+
+            .gallery img {
+                width: 100%;
+                max-width: 100%;
+                height: auto;
+            }
+
+            .discord-btn {
+                width: 90%;
+                font-size: 1em;
+            }
+        }
     </style>
 
     <script>
-      // Skrypt do powiększania zdjęć po kliknięciu
-      document.addEventListener("DOMContentLoaded", function () {
-        const images = document.querySelectorAll(".gallery img");
-        images.forEach((img) => {
-          img.addEventListener("click", () => {
-            img.classList.toggle("enlarged");
-          });
+        // Skrypt do powiększania zdjęć po kliknięciu
+        document.addEventListener("DOMContentLoaded", function () {
+            const images = document.querySelectorAll(".gallery img");
+            images.forEach((img) => {
+                img.addEventListener("click", () => {
+                    img.classList.toggle("enlarged");
+                });
+            });
         });
-      });
     </script>
-  </head>
+</head>
 
-  <body>
+<body>
     <header>
-      <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="DayZ New Beginning Logo" />
-      <div class="subtitle">🌿 DayZ New Beginning – Survive if you can! 🌿</div>
+        <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="DayZ New Beginning Logo" />
+        <div class="subtitle">🌿 DayZ New Beginning – Survive if you can! 🌿</div>
     </header>
 
     <div class="info">
-      <p>Welcome to the brutal world of DayZ – a game where every day is a fight to survive. Explore abandoned lands, gather supplies, build shelters, and watch out for other survivors – not everyone has good intentions. Will you find allies, or become the hunter?</p>
+        <p>Welcome to the brutal world of DayZ – a game where every day is a fight to survive. Explore abandoned lands, gather supplies, build shelters, and watch out for other survivors – not everyone has good intentions. Will you find allies, or become the hunter?</p>
     </div>
 
     <div class="info">
-      <p>
-        <strong>🔥 Server Name:</strong> VANILLA + | DayZ New Beginning<br />
-        <strong>💻 IP Address:</strong> 85.190.162.86:10300<br />
-        <strong>🗺️ Map:</strong> Livonia<br />
-        <strong>🎮 Platform:</strong> PC<br />
-        <strong>⚙ Server Version:</strong> 1.27.159420<br />
-        <strong>📌 YT channel:</strong> 
-        <a href="https://www.youtube.com/@tekzz-1" target="_blank" style="color: #58a6ff;">YouTube Tekzz-1</a>
-      </p>
+        <p>
+            <strong>🔥 Server Name:</strong> VANILLA + | DayZ New Beginning<br />
+            <strong>💻 IP Address:</strong> 85.190.162.86:10300<br />
+            <strong>🗺️ Map:</strong> Livonia<br />
+            <strong>🎮 Platform:</strong> PC<br />
+            <strong>⚙ Server Version:</strong> 1.27.159420<br />
+            <strong>📌 YT channel:</strong>
+            <a href="https://www.youtube.com/@tekzz-1" target="_blank" style="color: #58a6ff;">YouTube Tekzz-1</a>
+        </p>
     </div>
 
     <div class="mod-list">
-      <h3>🛠️ Mod List:</h3>
-      <ul>
-        <li>MMG Base Storage – advanced inventory storage system</li>
-        <li>VanillaPlusPlusMap – improved map and navigation</li>
-        <li>EarPlugs – in-game volume adjustment</li>
-        <li>CodeLock – advanced base locking system</li>
-        <li>Building Fortifications – enhanced base defense and building options</li>
-      </ul>
+        <h3>🛠️ Mod List:</h3>
+        <ul>
+            <li>MMG Base Storage – advanced inventory storage system</li>
+            <li>VanillaPlusPlusMap – improved map and navigation</li>
+            <li>EarPlugs – in-game volume adjustment</li>
+            <li>CodeLock – advanced base locking system</li>
+            <li>Building Fortifications – enhanced base defense and building options</li>
+        </ul>
 
-      <h3>🔑 How to join the server:</h3>
-      <p><strong>Step 1:</strong> Open DayZ or DayZ Launcher</p>
-      <p><strong>Step 2:</strong> Click on "Connect via IP"</p>
-      <p><strong>IP:</strong> 85.190.162.86</p>
-      <p><strong>Port:</strong> 10300</p>
-      <p><strong>Step 3:</strong> Load the required mods (DayZ Launcher will do this automatically for you)</p>
+        <h3>🔑 How to join the server:</h3>
+        <p><strong>Step 1:</strong> Open DayZ or DayZ Launcher</p>
+        <p><strong>Step 2:</strong> Click on "Connect via IP"</p>
+        <p><strong>IP:</strong> 85.190.162.86</p>
+        <p><strong>Port:</strong> 10300</p>
+        <p><strong>Step 3:</strong> Load the required mods (DayZ Launcher will do this automatically for you)</p>
 
-      <div style="margin-top: 20px;">
-        <img src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png" alt="Instrukcja logowania" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);" />
-      </div>
+        <div style="margin-top: 20px;">
+            <img src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png" alt="Instrukcja logowania" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);" />
+        </div>
 
-      <p style="margin-top: 15px;">
-        👉 <a href="https://dayzsalauncher.com/" target="_blank" style="color: #58a6ff;">Download DayZ Launcher</a> – a toggle switch to remove and manage mods
-      </p>
+        <p style="margin-top: 15px;">
+            👉 <a href="https://dayzsalauncher.com/" target="_blank" style="color: #58a6ff;">Download DayZ Launcher</a> – a toggle switch to remove and manage mods
+        </p>
     </div>
 
     <div class="info">
-      <h3>🌍 Server Description:</h3>
-      <p>Our server offers a classic Vanilla+ experience with lightweight upgrades to make survival even more engaging. Realistic loot economy, dynamic weather, and base-building systems let you create a true fortress. Join our community and decide — will you help others, or fight alone?</p>
+        <h3>🌍 Server Description:</h3>
+        <p>Our server offers a classic Vanilla+ experience with lightweight upgrades to make survival even more engaging. Realistic loot economy, dynamic weather, and base-building systems let you create a true fortress. Join our community and decide — will you help others, or fight alone?</p>
     </div>
 
     <div class="quote-box">
-      "There are no second chances in Chernarus or Livonia... Only the strong, clever, and lucky survive. Choose your path wisely."
+        "There are no second chances in Chernarus or Livonia... Only the strong, clever, and lucky survive. Choose your path wisely."
     </div>
 
     <div class="gallery">
-      <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
-      <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
-      <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
-      <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
-      <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
+        <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
+        <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
+        <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
+        <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
+        <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
     </div>
 
     <a class="discord-btn" href="https://discord.gg/bPvfNSDDD6" target="_blank">💬 Join our Discord</a>
 
     <footer>
-      <p>Hop in and see if you can survive! 🔥</p>
-      <p>Created with ❤️ by the DayZ New Beginning team</p>
+        <p>Hop in and see if you can survive! 🔥</p>
+        <p>Created with ❤️ by the DayZ New Beginning team</p>
     </footer>
-  </body>
+</body>
 </html>
+
