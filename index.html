@@ -1,251 +1,238 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>DayZ New Beginning</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DayZ | New Beginning</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    <!-- Favicon -->
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.postimg.cc/mrfyKzph/grayscale-graphic-of-woods-dayz-desktop-y9r406z2bprg56a0.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #eaeaea;
+      overflow-x: hidden;
+      padding: 40px 20px;
+      position: relative;
+    }
 
-    <style>
-        body {
-            margin: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: url('https://i.postimg.cc/mrfyKzph/grayscale-graphic-of-woods-dayz-desktop-y9r406z2bprg56a0.jpg') no-repeat center center fixed;
-            background-size: cover;
-            color: #f0f0f0;
-            text-align: center;
-            padding: 40px 20px;
-            position: relative;
-            overflow-x: hidden;
-        }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
 
-            /* Przyciemnienie tła */
-            body::before {
-                content: "";
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: rgba(0, 0, 0, 0.5); /* 50% czarne przyciemnienie */
-                z-index: -1;
-            }
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
 
-        header {
-            padding: 40px 20px;
-        }
+    header img {
+      max-width: 700px;
+      mix-blend-mode: lighten;
+      opacity: 0.9;
+      transition: 0.3s ease;
+    }
 
-            header img {
-                max-width: 100%;
-                height: auto;
-            }
+    header .subtitle {
+      font-size: 2rem;
+      color: #ccc;
+      margin-top: 15px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
 
-        h1 {
-            font-size: 3em;
-            margin-bottom: 10px;
-        }
+    .section {
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      background-color: rgba(20, 20, 20, 0.7);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
 
-        .subtitle {
-            font-size: 1.5em;
-            margin-top: 10px;
-            margin-bottom: 30px;
-            color: #ccc;
-        }
+    h1, h2 {
+      margin-bottom: 15px;
+      color: #cc0000;
+      text-shadow: 0 0 6px rgba(204, 0, 0, 0.7);
+    }
 
-        .info {
-            margin: 20px auto;
-            max-width: 700px;
-            text-align: left;
-        }
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
 
-            .info strong {
-                color: #ff4444;
-            }
+    ul {
+      padding-left: 20px;
+    }
 
-        .mod-list {
-            text-align: left;
-            max-width: 700px;
-            margin: 20px auto;
-        }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
 
-        .discord-btn {
-            background-color: #5865F2;
-            color: white;
-            padding: 15px 25px;
-            border: none;
-            border-radius: 10px;
-            text-decoration: none;
-            font-size: 1.2em;
-            display: inline-block;
-            margin-top: 30px;
-        }
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
 
-        footer {
-            margin-top: 40px;
-            font-size: 0.9em;
-            color: #888;
-        }
+    .gallery img.enlarged {
+      transform: scale(2.2);
+      position: relative;
+      z-index: 1000;
+    }
 
-        .quote-box {
-            background-color: rgba(26, 26, 26, 0.8);
-            padding: 20px;
-            border-left: 4px solid #ff4444;
-            font-style: italic;
-            max-width: 700px;
-            margin: 40px auto;
-            color: #ccc;
-        }
+    .quote-box {
+      font-style: italic;
+      background-color: rgba(40, 40, 40, 0.8);
+      border-left: 4px solid #cc0000;
+      padding: 20px;
+      margin-top: 20px;
+    }
 
-        .gallery {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px;
-            margin-top: 40px;
-        }
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      margin-top: 30px;
+    }
 
-            .gallery img {
-                width: 300px;
-                border-radius: 10px;
-                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-                transition: transform 0.3s ease;
-                cursor: pointer;
-            }
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      transition: background 0.3s ease;
+    }
 
-                .gallery img:hover {
-                    transform: scale(1.03);
-                }
+    .discord-btn { background-color: #5865F2; }
+    .youtube-btn { background-color: #FF0000; }
+    .donate-btn { background-color: #28a745; }
 
-                /* Powiększony obrazek */
-                .gallery img.enlarged {
-                    transform: scale(2);
-                    z-index: 1000;
-                    position: relative;
-                }
+    .btn:hover {
+      filter: brightness(1.1);
+    }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 10px;
-            }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 0.9rem;
+    }
 
-            h1 {
-                font-size: 2em;
-            }
+    .how-to-image {
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      max-width: 100%;
+    }
 
-            .subtitle {
-                font-size: 1.2em;
-            }
-
-            .info,
-            .mod-list,
-            .quote-box {
-                text-align: center;
-                padding: 0 10px;
-            }
-
-            .gallery img {
-                width: 100%;
-                max-width: 100%;
-                height: auto;
-            }
-
-            .discord-btn {
-                width: 90%;
-                font-size: 1em;
-            }
-        }
-    </style>
-
-    <script>
-        // Skrypt do powiększania zdjęć po kliknięciu
-        document.addEventListener("DOMContentLoaded", function () {
-            const images = document.querySelectorAll(".gallery img");
-            images.forEach((img) => {
-                img.addEventListener("click", () => {
-                    img.classList.toggle("enlarged");
-                });
-            });
-        });
-    </script>
+    @media (max-width: 600px) {
+      header img {
+        width: 90%;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const images = document.querySelectorAll(".gallery img");
+      images.forEach((img) => {
+        img.addEventListener("click", () => img.classList.toggle("enlarged"));
+        img.addEventListener("mouseleave", () => img.classList.remove("enlarged"));
+      });
+    });
+  </script>
 </head>
-
 <body>
-    <header>
-        <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="DayZ New Beginning Logo" />
-        <div class="subtitle">🌿 10 Maja WIPE !! 🌿</div>
-    </header>
+  <header>
+    <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="New Beginning Logo">
+    <div class="subtitle">🌿 WIPE on May 10th! 🌿</div>
+  </header>
 
-    <div class="info">
-        <p>Welcome to the brutal world of DayZ – a game where every day is a fight to survive. Explore abandoned lands, gather supplies, build shelters, and watch out for other survivors – not everyone has good intentions. Will you find allies, or become the hunter?</p>
-    </div>
+  <div class="section">
+    <h1>Welcome to DayZ: New Beginning</h1>
+    <p>Experience survival in its rawest form. Navigate through Livonia, gather resources, build a base, leave notes, and be cautious—trust is a rare commodity here.</p>
+  </div>
 
-    <div class="info">
-        <p>
-            <strong>🔥 Server Name:</strong> VANILLA + | DayZ New Beginning<br />
-            <strong>💻 IP Address:</strong> 85.190.162.86:10300<br />
-            <strong>🗺️ Map:</strong> Livonia<br />
-            <strong>🎮 Platform:</strong> PC<br />
-            <strong>⚙ Server Version:</strong> 1.27.159420<br />
-            <strong>📌 YT channel:</strong>
-            <a href="https://www.youtube.com/@tekzz-1" target="_blank" style="color: #58a6ff;">YouTube Tekzz-1</a>
-        </p>
-    </div>
+  <div class="section">
+    <h2>📖 Our Story</h2>
+    <p>New Beginning isn't just another server. It was born out of countless nights, firefights under moonlight, stories told around campfires, and a shared desire for immersive, balanced gameplay. Our admins were once just survivors like you, chasing chickens and dodging snipers. Now, we've built a world where your story matters. What will yours be?</p>
+  </div>
 
-    <div class="mod-list">
-        <h3>🛠️ Mod List:</h3>
-        <ul>
-            <li>MMG Base Storage – advanced inventory storage system</li>
-            <li>VanillaPlusPlusMap – improved map and navigation</li>
-            <li>EarPlugs – in-game volume adjustment</li>
-            <li>CodeLock – advanced base locking system</li>
-            <li>Building Fortifications – enhanced base defense and building options</li>
-        </ul>
+  <div class="section">
+    <h2>🧭 Server Info</h2>
+    <p><strong>🔥 Server:</strong> VANILLA+ | DayZ New Beginning</p>
+    <p><strong>💻 IP:</strong> 85.190.162.86 | <strong>Port:</strong> 10300</p>
+    <p><strong>🗺 Map:</strong> Livonia</p>
+    <p><strong>⚙ Version:</strong> 1.27.159420</p>
+    <p><strong>🎮 Platform:</strong> PC Only</p>
+  </div>
 
-        <h3>🔑 How to join the server:</h3>
-        <p><strong>Step 1:</strong> Open DayZ or DayZ Launcher</p>
-        <p><strong>Step 2:</strong> Click on "Connect via IP"</p>
-        <p><strong>IP:</strong> 85.190.162.86</p>
-        <p><strong>Port:</strong> 10300</p>
-        <p><strong>Step 3:</strong> Load the required mods (DayZ Launcher will do this automatically for you)</p>
+  <div class="section">
+    <h2>🛠️ Active Mods</h2>
+    <ul>
+      <li><strong>CodeLock</strong> – Advanced base security</li>
+      <li><strong>MMG Base Storage</strong> – Smart storage system</li>
+      <li><strong>Notes</strong> – Leave messages in the world</li>
+      <li><strong>EarlPlug</strong> – Reduce volume with 'N' key</li>
+      <li><strong>Duct Tape Suppressor Fix</strong> – Repair improvised suppressor with tape</li>
+      <li><strong>Build Options</strong> – Narrow doors, window barricades, tents & crates</li>
+    </ul>
+    <p><em>We've removed minimaps like VPP to preserve immersion and realism.</em></p>
+  </div>
 
-        <div style="margin-top: 20px;">
-            <img src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png" alt="Instrukcja logowania" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);" />
-        </div>
+  <div class="section">
+    <h2>🎯 How to Join</h2>
+    <ol>
+      <li>Open DayZ or the <a href="https://dayzsalauncher.com/" target="_blank">DayZ Launcher</a></li>
+      <li>Use "Connect via IP"</li>
+      <li><strong>Enter IP:</strong> <code>85.190.162.86</code></li>
+      <li><strong>Enter Port:</strong> <code>10300</code> <em>(separately)</em></li>
+      <li>Let DayZ Launcher load required mods</li>
+      <li>Or look at the image below the connection in the original launcher</li>
+    </ol>
+    <img src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png" alt="Old style connect guide" class="how-to-image" />
+  </div>
 
-        <p style="margin-top: 15px;">
-            👉 <a href="https://dayzsalauncher.com/" target="_blank" style="color: #58a6ff;">Download DayZ Launcher</a> – a toggle switch to remove and manage mods
-        </p>
-    </div>
-
-    <div class="info">
-        <h3>🌍 Server Description:</h3>
-        <p>Our server offers a classic Vanilla+ experience with lightweight upgrades to make survival even more engaging. Realistic loot economy, dynamic weather, and base-building systems let you create a true fortress. Join our community and decide — will you help others, or fight alone?</p>
-    </div>
-
-    <div class="quote-box">
-        "There are no second chances in Chernarus or Livonia... Only the strong, clever, and lucky survive. Choose your path wisely."
-    </div>
-
+  <div class="section">
+    <h2>📸 Server Gallery</h2>
     <div class="gallery">
-        <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
-        <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
-        <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
-        <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
-        <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
-        <img src="https://i.postimg.cc/Qd5pgNND/221100-20250427164305-1.png" alt="Screenshot 6" />
-        <img src="https://i.postimg.cc/s2r5TF1h/221100-20250427192444-1.png" alt="Screenshot 7" />
-        <img src="https://i.postimg.cc/9fYZSxqN/221100-20250427193911-1.png" alt="Screenshot 8" />
+      <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
+      <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
+      <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
+      <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
+      <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
+      <img src="https://i.postimg.cc/Qd5pgNND/221100-20250427164305-1.png" alt="Screenshot 6" />
     </div>
+  </div>
 
-    <a class="discord-btn" href="https://discord.gg/bPvfNSDDD6" target="_blank">💬 Join our Discord</a>
+  <div class="section quote-box">
+    "There are no second chances in Livonia... Only the strong, clever, and lucky survive. Choose your path wisely."
+  </div>
 
-    <footer>
-        <p>Hop in and see if you can survive! 🔥</p>
-        <p>Created with ❤️ by the DayZ New Beginning team</p>
-    </footer>
+  <div class="buttons">
+    <a href="https://discord.gg/bPvfNSDDD6" class="btn discord-btn" target="_blank">💬 Join our Discord</a>
+    <a href="https://www.youtube.com/@tekzz-1" class="btn youtube-btn" target="_blank">▶ Watch on YouTube</a>
+    <a href="https://server.nitrado.net/donations/donate/11497588" class="btn donate-btn" target="_blank">💖 Support us with a Donation</a>
+  </div>
+
+  <footer>
+    <p>This site was created with joy, aa drop of blood for  the DAYZ community - to play, create, and survive together!. 🧟</p>
+    <p>© 2025 New Beginning Team — 🩸Tekzz ✝️ Rocket ✝️ αδέσποτος 1312 ✝️ & Geo Scully🩸</p>
+  </footer>
 </body>
 </html>
-
