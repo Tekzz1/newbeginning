@@ -242,6 +242,13 @@
   </script>
 </head>
 <body>
+
+<div style="position: fixed; top: 20px; right: 20px; z-index: 10000;">
+  <img src="https://flagcdn.com/w40/gb.png" alt="English" style="cursor:pointer; margin-right: 10px;" onclick="document.getElementById('lang-en').style.display='block';document.getElementById('lang-pl').style.display='none';" />
+  <img src="https://flagcdn.com/w40/pl.png" alt="Polski" style="cursor:pointer;" onclick="document.getElementById('lang-en').style.display='none';document.getElementById('lang-pl').style.display='block';" />
+</div>
+
+<div id="lang-en">
   <header>
     <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="New Beginning Logo" />
     <div class="subtitle">🌿 From the ashes of the old world, new survivors rise. 🌿</div>
@@ -357,5 +364,370 @@
       <span class="geoscally">Geo Scully🩸</span>
     </p>
   </footer>
+</div>
+</body>
+</html>
+<!-- Polish version -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DayZ | New Beginning</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: url('https://i.postimg.cc/mrfyKzph/grayscale-graphic-of-woods-dayz-desktop-y9r406z2bprg56a0.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #eaeaea;
+      overflow-x: hidden;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: -1;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    header img {
+      max-width: 700px;
+      mix-blend-mode: lighten;
+      opacity: 0.9;
+    }
+
+    header .subtitle {
+      font-size: 2rem;
+      color: #ccc;
+      margin-top: 15px;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    }
+
+    .section {
+      max-width: 800px;
+      margin: 0 auto 40px auto;
+      background-color: rgba(20, 20, 20, 0.7);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+    }
+
+    h1, h2 {
+      margin-bottom: 15px;
+      color: #cc0000;
+      text-shadow: 0 0 6px rgba(204, 0, 0, 0.7);
+    }
+
+    a {
+      color: #58a6ff;
+      text-decoration: none;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+
+    .gallery img {
+      width: 100%;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery img.enlarged {
+      transform: scale(2.2);
+      position: relative;
+      z-index: 1000;
+    }
+
+    .quote-box {
+      font-style: italic;
+      background-color: rgba(40, 40, 40, 0.8);
+      border-left: 4px solid #cc0000;
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      transition: background 0.3s ease;
+    }
+
+    .discord-btn { background-color: #5865F2; }
+    .youtube-btn { background-color: #FF0000; }
+    .donate-btn { background-color: #28a745; }
+
+    .btn:hover {
+      filter: brightness(1.1);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 0.9rem;
+    }
+
+    footer p {
+      color: #aaa;
+      margin: 0.2em 0;
+    }
+
+    footer span.tekzz {
+      color: #cc0000;
+      text-shadow: 0 0 8px #cc0000, 0 0 15px #ff5555;
+      font-weight: bold;
+    }
+
+    footer span.rocket {
+      color: #0055cc;
+      text-shadow: 0 0 8px #0055cc, 0 0 15px #5599ff;
+      font-weight: bold;
+    }
+
+    footer span.adespotos {
+      color: #55aa00;
+      text-shadow: 0 0 8px #55aa00, 0 0 15px #aaff55;
+      font-weight: bold;
+    }
+
+    footer span.geoscally {
+      color: #ffcc00;
+      text-shadow: 0 0 8px #ffcc00, 0 0 15px #ffff88;
+      font-weight: bold;
+    }
+
+    .how-to-image {
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      max-width: 100%;
+    }
+
+    .recommended-servers {
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.3);
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+      margin-bottom: 40px;
+    }
+
+    .recommended-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .recommended-item {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .recommended-item .default-img,
+    .recommended-item .hover-img {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      top: 0;
+      left: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .recommended-item .hover-img {
+      opacity: 0;
+    }
+
+    .recommended-item:hover {
+      width: 360px;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .recommended-item:hover .default-img {
+      opacity: 0;
+    }
+
+    .recommended-item:hover .hover-img {
+      opacity: 1;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 600px) {
+      header img {
+        width: 90%;
+      }
+    }
+  </style>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const images = document.querySelectorAll(".gallery img");
+      images.forEach((img) => {
+        img.addEventListener("click", () => img.classList.toggle("enlarged"));
+        img.addEventListener("mouseleave", () => img.classList.remove("enlarged"));
+      });
+    });
+  </script>
+</head>
+
+<div id="lang-pl" style="display:none;">
+  <header>
+    <img src="https://i.postimg.cc/52JB7vWx/LOGO2-2-1.png" alt="New Beginning Logo" />
+    <div class="subtitle">🌿 Z popiołów starego świata wyłaniają się nowi ocaleni. 🌿</div>
+  </header>
+
+  <div class="section">
+    <h1>Witamy w DayZ: Nowy Początek</h1>
+    <p>
+      Przeżyj przetrwanie w jego najsurowszej formie. Przemierzaj Livonię, zbieraj zasoby, buduj bazę,
+      zostawiaj notatki i bądź ostrożny — zaufanie jest tutaj rzadkim dobrem.
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>📖 Nasza Historia</h2>
+    <p>
+      New Beginning to nie tylko kolejny serwer. Powstał z niezliczonych nocy, strzelanin w
+      świetle księżyca, opowieści opowiadanych przy ogniskach i wspólnego pragnienia wciągającej, zrównoważonej rozgrywki.
+      Nasi administratorzy byli kiedyś po prostu ocalałymi, takimi jak Ty, goniącymi kurczaki i unikającymi snajperów. Teraz
+      zbudowaliśmy świat, w którym Twoja historia ma znaczenie. Jaka będzie Twoja?
+    </p>
+  </div>
+
+  <div class="section">
+    <h2>🧭 Informacje o Serwerze</h2>
+    <p><strong>🔥 Serwer:</strong> VANILLA+ | DayZ New Beginning</p>
+    <p><strong>💻 IP:</strong> 85.190.162.86 | <strong>Port:</strong> 10300</p>
+    <p><strong>🗺 Mapa:</strong> Livonia</p>
+    <p><strong>⚙ Wersja:</strong> 1.27.159420</p>
+    <p><strong>🎮 Platforma:</strong> PC Only</p>
+  </div>
+
+  <div class="section">
+    <h2>🛠️ Aktywne Modyfikacje</h2>
+    <ul>
+      <li><strong>Air Drop</strong> przetestuj, jeśli ci się spodoba, to zostanie</li>
+      <li><strong>CodeLock</strong> – Zaawansowane zabezpieczenia bazy</li>
+      <li><strong>MMG Base Storage</strong> – Inteligentny system przechowywania</li>
+      <li><strong>Notes</strong> – Pozostawiaj wiadomości w świecie</li>
+      <li><strong>EarlPlug</strong> – Zmniejsz głośność klawiszem 'N'</li>
+      <li><strong>Build Options</strong> – Wąskie drzwi, barykady okien, namioty i skrzynie</li>
+    </ul>
+    <p><em>Stawiamy na trudną rozgrywkę – czy dasz sobie radę?</em></p>
+  </div>
+
+  <div class="section">
+    <h2>🎯 Jak Dołączyć</h2>
+    <ol>
+      <li>Uruchom grę DayZ</li>
+      <li>Użyj opcji "Połącz przez IP"</li>
+      <li><strong>Wprowadź IP:</strong> <code>85.190.162.86</code></li>
+      <li><strong>Wprowadź port:</strong> <code>10300</code> <em>(separately)</em></li>
+      <li>Poczekaj, aż gra załaduje wymagane modyfikacje</li>
+      <li>Lub spójrz na obrazek poniżej, aby połączyć się przez oryginalny launcher</li>
+    </ol>
+    <img
+      src="https://i.postimg.cc/X7R6PDmd/image-6797b69480f3d6-01496950.png"
+      alt="Old style connect guide"
+      class="how-to-image"
+    />
+  </div>
+
+  <div class="section">
+    <h2>📸 Galeria Serwera</h2>
+    <div class="gallery">
+      <img src="https://i.postimg.cc/Hsnhkw86/Zrzut-ekranu-2025-04-05-132301.png" alt="Screenshot 1" />
+      <img src="https://i.postimg.cc/tJydQfbZ/2-otwarty-swiat.jpg" alt="Screenshot 2" />
+      <img src="https://i.postimg.cc/nV0WxRrs/Zrzut-ekranu-2025-04-05-132402.png" alt="Screenshot 3" />
+      <img src="https://i.postimg.cc/ZYFFFTPr/Zrzut-ekranu-2025-04-26-104324.png" alt="Screenshot 4" />
+      <img src="https://i.postimg.cc/nVd6BvgQ/221100-20250330151705-1.png" alt="Screenshot 5" />
+      <img src="https://i.postimg.cc/Qd5pgNND/221100-20250427164305-1.png" alt="Screenshot 6" />
+    </div>
+  </div>
+
+  <div class="recommended-servers section">
+    <h2>🌐 Polecane Serwery - Wzajemne Wsparcie</h2>
+    <div class="recommended-list">
+      <a href="https://discord.gg/wmDF4GaMgY" target="_blank" class="recommended-item">
+        <img class="default-img" src="https://i.postimg.cc/RVLQqp2p/Be79-REBR-400x400.jpg" alt="Discord 1" />
+        <img class="hover-img" src="https://invidget.switchblade.xyz/wmDF4GaMgY" alt="Discord Info 1" />
+      </a>
+      <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" class="recommended-item">
+        <img class="default-img" src="https://i.postimg.cc/3rVmN5LZ/Zrzut-ekranu-2025-05-18-150829.png" alt="Discord 2" />
+        <img class="hover-img" src="https://invidget.switchblade.xyz/dtr7RNR7DJ" alt="Discord Info 2" />
+      </a>
+      <a href="https://discord.gg/7nuyDvctgg" target="_blank" class="recommended-item">
+        <img class="default-img" src="https://i.postimg.cc/L5c1bLqW/Zrzut-ekranu-2025-05-18-150911-1.png" alt="Discord 3" />
+        <img class="hover-img" src="https://invidget.switchblade.xyz/7nuyDvctgg" alt="Discord Info 3" />
+      </a>
+    </div>
+  </div>
+
+  <div class="section quote-box">
+    "W Livonii nie ma drugich szans... Przetrwają tylko silni, sprytni i szczęśliwi. Wybierz mądrze swoją ścieżkę."
+  </div>
+
+  <div class="buttons">
+    <a href="https://discord.gg/bPvfNSDDD6" class="btn discord-btn" target="_blank">💬 Dołącz do naszego Discorda</a>
+    <a href="https://www.youtube.com/@tekzz-1" class="btn youtube-btn" target="_blank">▶ Oglądaj na YouTube</a>
+    <a href="https://paypal.me/Dayznb?country.x=PL&locale.x=en_US" class="btn donate-btn" target="_blank">💖 Wesprzyj nas darowizną</a>
+  </div>
+
+  <footer>
+    <p>
+      Ta strona została stworzona z radości, kropli krwi dla społeczności DAYZ - aby grać, tworzyć i przetrwać
+      razem!. 🧟
+    </p>
+    <p>
+      © 2025 New Beginning Zespół — 
+      <span class="tekzz">🩸Tekzz</span> ✝️ 
+      <span class="rocket">Rocket</span> ✝️ 
+      <span class="adespotos">αδέσποτος 1312</span> ✝️ &nbsp;
+      <span class="geoscally">Geo Scully🩸</span>
+    </p>
+  </footer>
+</div>
 </body>
 </html>
