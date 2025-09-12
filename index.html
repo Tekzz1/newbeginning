@@ -248,7 +248,27 @@
   border-radius: 8px;
 }
 
-  </style>
+  
+/* === Mobile polish (≤ 560px) === */
+@media (max-width: 560px){
+  body { background-attachment: scroll; }
+  .wrap { padding: 16px; }
+  .hero-inner { padding: 48px 16px 28px; gap: 18px; }
+  .topbar-inner { padding: 10px 16px; gap: 10px; }
+  .nav { flex-wrap: wrap; gap: 10px; }
+  .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+  .gallery img { height: 160px; object-fit: cover; }
+  #recommended .rec-links { max-height: 380px; }
+  #recommended .rec-links ul { grid-template-columns: 1fr; }
+  .rec-item > a { word-break: break-word; }
+  .btn { padding: 12px 14px; }
+}
+
+@media (max-width: 900px){
+  .wrap { padding: 20px; }
+}
+
+</style>
 </head>
 <body>
   <header class="topbar" role="banner">
@@ -359,26 +379,26 @@
         <a href="https://discord.gg/wmDF4GaMgY" target="_blank" rel="noopener">HollyRex</a>
         <div class="rec-desc">➡ Discord</div>
       </li>
-      <li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
+      </li><li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
         <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" rel="noopener">Long Road To Salvation</a>
         <div class="rec-desc">➡ Discord</div>
       </li>
-      <li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
+      </li><li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
         <a href="https://discord.gg/7nuyDvctgg" target="_blank" rel="noopener">The Devil Cristal</a>
         <div class="rec-desc">➡ Discord</div>
-              <li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
+              </li><li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
         <a href="https://discord.gg/XeqyDhmr8j" target="_blank" rel="noopener">Legion</a>
         <div class="rec-desc">➡ Discord</div>
       </li>
-      <li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
+      </li><li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
         <a href="https://discord.gg/MyStory" target="_blank" rel="noopener">My story</a>
         <div class="rec-desc">➡ Discord</div>
       </li>
-      <li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
+      </li><li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
         <a href="https://discord.gg/spaggie-s-servers-801491603310772255" target="_blank" rel="noopener">Serwer partnerski 3</a>
         <div class="rec-desc">➡ Discord</div>
       </li>
-    </ul>
+    </li></ul>
   </div>
 </section>
 
