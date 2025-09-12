@@ -515,7 +515,7 @@ copyBtn.addEventListener('click', async ()=>{
 
   const ok = await copyToClipboard(text);
   if (ok){
-    if (copyOverlay){ copyOverlay.classList.add('show'); setTimeout(()=>copyOverlay.classList.remove('show'), 10000); }
+    if (copyOverlay){ copyOverlay.classList.add('show'); setTimeout(()=>copyOverlay.classList.remove('show'), 3000); }
     copyBtn.classList.add('success'); const prev=copyBtn.textContent; copyBtn.textContent='✅ Skopiowano!';
     setTimeout(()=>{ copyBtn.classList.remove('success'); copyBtn.textContent=prev; }, 2000);
   } else {
