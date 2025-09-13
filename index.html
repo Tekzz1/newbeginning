@@ -21,6 +21,12 @@
     :root{
       --bg: #0e0e0e; --panel: #171717; --accent: #cc0000; --text:#eaeaea; --muted:#a9a9a9; --link:#58a6ff;
       --shadow: 0 8px 28px rgba(0,0,0,.55);
+      --green:#22c55e; --red:#ef4444;
+
+      /* Kolorystyka plakietki VANILLA+ (u góry po lewej) */
+      --tag-bg: rgba(204,0,0,.20);
+      --tag-bd: rgba(204,0,0,.35);
+      --tag-fg: #ffc9c9;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -49,12 +55,13 @@
     h1{font-size:clamp(1.8rem,3vw,2.6rem);margin:.25em 0 .4em;color:var(--text)}
     .lede{color:#d6d6d6;max-width:56ch}
     .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);font-weight:600;background:#1c1c1c;box-shadow:var(--shadow)}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);font-weight:600;background:#1c1c1c;box-shadow:var(--shadow);position:relative;overflow:hidden; line-height:1}
+    .btn svg{width:18px;height:18px;display:block}
     .btn.primary{background:var(--accent);border-color:transparent}
     .btn:hover{filter:brightness(1.08)}
     .server-card{background:rgba(23,23,23,.92);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
     .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center}
-    .tag{display:inline-block;background:rgba(204,0,0,.2);border:1px solid rgba(204,0,0,.35);color:#ffc9c9;padding:2px 8px;border-radius:999px;font-size:.8rem}
+    .tag{display:inline-block;background:var(--tag-bg);border:1px solid var(--tag-bd);color:var(--tag-fg);padding:2px 8px;border-radius:999px;font-size:.8rem}
 
     /* Sections */
     section{padding:40px 0}
@@ -91,183 +98,156 @@
 
     /* Accessibility */
     @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto} .gallery img{transition:none} .rec-card img{transition:none}}
+
+    body {
+      background: url("assets/img/hero-bg.jpg") center top / cover no-repeat fixed;
+      background-attachment: fixed;
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: -1;
+    }
+    .hero::before { background: none; }
+    .hero::after { background: none; }
+
+    .rec-links ul { list-style: none; padding: 0; }
+    .rec-links li { margin: 6px 0; }
+    .rec-links a { font-weight: 600; color: var(--link); }
+
+    .btn.success { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transition: background 0.3s ease; }
+    .btn.error { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; transition: background 0.3s ease; }
+
+    .rec-item { position: relative; margin: 8px 0; }
+    .rec-desc { max-height: 0; overflow: hidden; color: var(--muted); font-size: 0.9rem; transition: max-height 0.4s ease, opacity 0.4s ease; opacity: 0; }
+    .rec-item:hover .rec-desc { max-height: 100px; opacity: 1; }
+
+    /* --- Recommended: kompaktowy, przewijalny panel --- */
+    #recommended .rec-links { max-height: 320px; overflow: auto; padding-right: 6px; scroll-behavior: smooth; border-radius: 10px; }
+    #recommended .rec-links::-webkit-scrollbar { width: 10px; }
+    #recommended .rec-links::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 8px; }
+    #recommended .rec-links::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
+    #recommended .rec-search { position: sticky; top: 0; z-index: 1; background: var(--panel); padding-bottom: 8px; margin-bottom: 8px; }
+    #recommended .rec-search input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.12); background: #1c1c1c; color: var(--text); }
+    #recommended .rec-links ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 12px; }
+    #recommended .rec-item { margin: 0; padding: 10px 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(255,255,255,.02); transition: transform .15s ease, background .2s ease, border-color .2s ease; }
+    #recommended .rec-item:hover { transform: translateY(-2px); background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
+    #recommended .rec-item > a { display: inline-block; font-weight: 600; }
+    #recommended .rec-desc { margin-top: 6px; }
+
+    /* Mobile: jedna kolumna poniżej 560px */
+    @media (max-width:560px){
+      #recommended .rec-links { max-height: 380px; }
+      #recommended .rec-links ul { grid-template-columns: 1fr; }
+    }
+
+    .overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
+    }
+    .overlay img { max-width: 100%; max-height: 100%; object-fit: cover; }
+    .overlay.show { opacity: 1; pointer-events: all; }
+    .overlay p {
+      position: absolute; bottom: 40px; color: #fff; font-size: 1.6rem; font-weight: bold;
+      background: rgba(0,0,0,0.5); padding: 10px 18px; border-radius: 8px;
+    }
+
+    /* === Mobile polish (≤ 560px) === */
+    @media (max-width: 560px){
+      body { background-attachment: scroll; }
+      .wrap { padding: 16px; }
+      .hero-inner { padding: 48px 16px 28px; gap: 18px; }
+      .topbar-inner { padding: 10px 16px; gap: 10px; }
+      .nav { flex-wrap: wrap; gap: 10px; }
+      .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
+      .gallery img { height: 160px; object-fit: cover; }
+      #recommended .rec-links { max-height: 380px; }
+      #recommended .rec-links ul { grid-template-columns: 1fr; }
+      .rec-item > a { word-break: break-word; }
+      .btn { padding: 12px 14px; }
+    }
+    @media (max-width: 900px){ .wrap { padding: 20px; } }
+
+    /* ====== ZMIANA: przycisk kopiowania jak plakietka VANILLA+ ====== */
+    #copy-ip{
+      background: var(--tag-bg);
+      border: 1px solid var(--tag-bd);
+      color: var(--tag-fg);
+      padding-left: 40px; /* miejsce na ikonę kropli */
+    }
+    #copy-ip.blink {
+      animation: tagPulse 1.4s ease-in-out infinite;
+    }
+    #copy-ip .blood { /* ikonka kropli */
+      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 22px; height: 22px;
+      filter: drop-shadow(0 0 6px rgba(255,0,0,.5));
+      animation: pulse 1.4s ease-in-out infinite;
+      color: var(--tag-fg);
+    }
+    #copy-ip .blood svg { width: 18px; height: 18px; display: block; }
+
+    @keyframes tagPulse {
+      0%,100% { box-shadow: 0 0 0 rgba(204,0,0,0); background: var(--tag-bg); }
+      50%     { box-shadow: 0 0 16px rgba(204,0,0,.35); background: rgba(204,0,0,.28); }
+    }
+    @keyframes pulse {
+      0%, 100% { transform: translateY(-50%) scale(1); opacity: .9; }
+      50%      { transform: translateY(-50%) scale(1.2); opacity: 1; }
+    }
+
+    /* ====== Sekcja Specjalne podziękowania ====== */
+    #thanks .thanks-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
+    #thanks .thanks-thumb{ border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.1); box-shadow: var(--shadow); }
+    #thanks .thanks-thumb img{ width:100%; height:auto; display:block; }
+    #thanks .placeholder{ color: var(--muted); background: rgba(255,255,255,.03); border: 1px dashed rgba(255,255,255,.12); border-radius: 10px; padding: 14px; }
+    @media (max-width:900px){ #thanks .thanks-grid{ grid-template-columns: 1fr; } }
   
-  body {
-    background: url("assets/img/hero-bg.jpg") center top / cover no-repeat fixed;
-    background-attachment: fixed;
-    margin: 0;
-    padding: 0;
-    color: var(--text);
-  }
-  body::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: -1;
-  }
-  .hero::before { background: none; }
-  .hero::after { background: none; }
-
-  .rec-links ul { list-style: none; padding: 0; }
-  .rec-links li { margin: 6px 0; }
-  .rec-links a { font-weight: 600; color: var(--link); }
-
-  
-.btn.success {
-  background: #2ecc71 !important; /* zielony */
-  border-color: #27ae60 !important;
-  color: #fff !important;
-  transition: background 0.3s ease;
-}
-.btn.error {
-  background: #e74c3c !important; /* czerwony */
-  border-color: #c0392b !important;
-  color: #fff !important;
-  transition: background 0.3s ease;
-}
-
-  
-.rec-item {
-  position: relative;
-  margin: 8px 0;
-}
-
-.rec-desc {
-  max-height: 0;
-  overflow: hidden;
-  color: var(--muted);
-  font-size: 0.9rem;
-  transition: max-height 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
-}
-
-.rec-item:hover .rec-desc {
-  max-height: 100px;
-  opacity: 1;
-}
-
-  
-/* --- Recommended: kompaktowy, przewijalny panel --- */
-#recommended .rec-links {
-  max-height: 320px;           /* stała wysokość sekcji – reszta przewijana wewnątrz */
-  overflow: auto;
-  padding-right: 6px;          /* miejsce na scrollbar */
-  scroll-behavior: smooth;
-  border-radius: 10px;
-}
-
-#recommended .rec-links::-webkit-scrollbar { width: 10px; }
-#recommended .rec-links::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 8px; }
-#recommended .rec-links::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
-
-#recommended .rec-search {
-  position: sticky; top: 0; z-index: 1;
-  background: var(--panel);
-  padding-bottom: 8px; margin-bottom: 8px;
-}
-
-#recommended .rec-search input {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: #1c1c1c;
-  color: var(--text);
-}
-
-#recommended .rec-links ul {
-  list-style: none; margin: 0; padding: 0;
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 8px 12px;
-}
-
-#recommended .rec-item {
-  margin: 0;
-  padding: 10px 12px;
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 10px;
-  background: rgba(255,255,255,.02);
-  transition: transform .15s ease, background .2s ease, border-color .2s ease;
-}
-
-#recommended .rec-item:hover {
-  transform: translateY(-2px);
-  background: rgba(255,255,255,.04);
-  border-color: rgba(255,255,255,.18);
-}
-
-#recommended .rec-item > a {
-  display: inline-block;
-  font-weight: 600;
-}
-
-#recommended .rec-desc { margin-top: 6px; }
-
-/* Mobile: jedna kolumna poniżej 560px */
-@media (max-width:560px){
-  #recommended .rec-links { max-height: 380px; }
-  #recommended .rec-links ul { grid-template-columns: 1fr; }
-}
-
-  
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.85);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 3000;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 0.5s ease;
-}
-
-.overlay img {
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: cover;
-}
-
-.overlay.show {
-  opacity: 1;
-  pointer-events: all;
-}
-
-.overlay p {
-  position: absolute;
-  bottom: 40px;
-  color: #fff;
-  font-size: 1.6rem;
-  font-weight: bold;
-  background: rgba(0,0,0,0.5);
-  padding: 10px 18px;
-  border-radius: 8px;
-}
-
-  
-/* === Mobile polish (≤ 560px) === */
-@media (max-width: 560px){
-  body { background-attachment: scroll; }
-  .wrap { padding: 16px; }
-  .hero-inner { padding: 48px 16px 28px; gap: 18px; }
-  .topbar-inner { padding: 10px 16px; gap: 10px; }
-  .nav { flex-wrap: wrap; gap: 10px; }
-  .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
-  .gallery img { height: 160px; object-fit: cover; }
-  #recommended .rec-links { max-height: 380px; }
-  #recommended .rec-links ul { grid-template-columns: 1fr; }
-  .rec-item > a { word-break: break-word; }
-  .btn { padding: 12px 14px; }
-}
-
-@media (max-width: 900px){
-  .wrap { padding: 20px; }
-}
-
+    /* === Blood Name effect === */
+    .blood-name{
+      color:#b10000;
+      font-weight:800;
+      position:relative;
+      text-transform:uppercase;
+      text-shadow: 0 0 6px rgba(255,0,0,.45), 0 0 18px rgba(255,0,0,.25);
+      animation: bloodPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes bloodPulse{
+      0%,100%{ filter: drop-shadow(0 0 0 rgba(255,0,0,0.0)); transform: translateY(0) scale(1); }
+      50%{ filter: drop-shadow(0 0 10px rgba(255,0,0,.45)); transform: translateY(-1px) scale(1.03); }
+    }
+    .blood-name::before, .blood-name::after{
+      content:"";
+      position:absolute;
+      left:50%;
+      top:100%;
+      width:4px; height:10px;
+      background: linear-gradient(#b10000, #5a0000);
+      border-radius:2px;
+      transform: translateX(-50%);
+      opacity:.9;
+      animation: bloodDrip 1.8s cubic-bezier(.2,.7,.2,1) infinite;
+      box-shadow: 0 2px 6px rgba(0,0,0,.5);
+    }
+    .blood-name::after{
+      left:60%;
+      width:3px; height:7px;
+      animation-duration: 2.2s;
+      opacity:.8;
+    }
+    @keyframes bloodDrip{
+      0%{ transform: translate(-50%,0) scaleY(0); opacity:0; }
+      30%{ transform: translate(-50%,2px) scaleY(1); opacity:1; }
+      100%{ transform: translate(-50%,14px) scaleY(1); opacity:0; }
+    }
+    
 </style>
 </head>
 <body>
@@ -278,10 +258,12 @@
         <span class="tag" data-i18n="kicker">VANILLA+ • 1PP • Livonia</span>
       </div>
       <nav class="nav" aria-label="Główna nawigacja">
+        <a href="#news">News</a>
         <a href="#mods" data-i18n="nav.mods">Mody</a>
         <a href="#how" data-i18n="nav.how">Jak dołączyć</a>
         <a href="#gallery" data-i18n="nav.gallery">Galeria</a>
         <a href="#recommended" data-i18n="nav.recommended">Polecane</a>
+        <a href="#thanks" data-i18n="nav.thanks">Podziękowania</a>
       </nav>
       <div class="lang" role="group" aria-label="Wybór języka">
         <button type="button" data-lang="pl" class="active" aria-pressed="true">PL</button>
@@ -290,18 +272,46 @@
     </div>
   </header>
 
+  <!-- 🆕 Dodana sekcja NEWS zaraz pod nagłówkiem -->
+  <div class="wrap">
+    <section id="news" class="panel" aria-label="Najnowsze informacje">
+      <h2>Najnowsze informacje</h2>
+      <ul>
+        <li><strong>[??]</strong> 🚀 Serwer został zaktualizowany do najnowszej wersji.</li>
+        <li><strong>[??]</strong> 🧟 !!!</li>
+        <li><strong>[??]</strong> 🎉 !!!</li>
+      </ul>
+    </section>
+  </div>
+
+
   <main id="content" class="hero" role="main">
     <div class="wrap hero-inner">
       <section aria-label="Wprowadzenie">
-        <p class="kicker" data-i18n="kicker">VANILLA+ • 1PP • Livonia</p>
-        <h1 data-i18n="hero.title">Z popiołów starego świata wyłaniają się nowi ocaleni.</h1>
-        <p class="lede" data-i18n="hero.lede">DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.</p>
-        <div class="cta-row">
-          <a class="btn primary" href="https://discord.gg/bPvfNSDDD6" target="_blank" rel="noopener" data-i18n="cta.discord">💬 Dołącz na Discord</a>
-          <a class="btn" href="https://www.youtube.com/@tekzz-1" target="_blank" rel="noopener" data-i18n="cta.youtube">▶ Oglądaj na YouTube</a>
-          <a class="btn" href="https://paypal.me/Dayznb?country.x=PL&locale.x=en_US" target="_blank" rel="noopener" data-i18n="cta.donate">💖 Wesprzyj darowizną</a>
-        </div>
-      </section>
+<p class="kicker" data-i18n="kicker">VANILLA+ • 1PP • Livonia</p>
+<h1 data-i18n="hero.title">Z popiołów starego świata wyłaniają się nowi ocaleni.</h1>
+<p class="lede" data-i18n="hero.lede">DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.</p>
+<div class="cta-row">
+  <a class="btn primary" href="https://discord.gg/bPvfNSDDD6" target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#5865F2">
+      <path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.846-.588 1.23a18.27 18.27 0 0 0-3.94 0A8.258 8.258 0 0 0 11.441 3a19.736 19.736 0 0 0-3.76 1.37C4.296 7.237 3.71 10.024 3.89 12.762c1.58 1.176 3.11 1.892 4.62 2.36.373-.51.707-1.05.996-1.62c-.55-.21-1.08-.47-1.59-.77c.138-.1.274-.204.407-.31c3.07 1.44 6.39 1.44 9.43 0c.133.108.27.212.407.313c-.51.3-1.04.56-1.59.77c.29.57.62 1.11.996 1.62c1.51-.47 3.04-1.183 4.62-2.36c.31-4.5-.76-7.26-1.77-8.392ZM9.754 12.348c-.9 0-1.63-.83-1.63-1.85s.73-1.85 1.63-1.85s1.64.83 1.63 1.85c0 1.02-.73 1.85-1.63 1.85m4.492 0c-.9 0-1.63-.83-1.63-1.85s.73-1.85 1.63-1.85s1.64.83 1.63 1.85c0 1.02-.73 1.85-1.63 1.85"/>
+    </svg>
+    Dołącz na Discord
+  </a>
+  <a class="btn" href="https://www.youtube.com/@tekzz-1" target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#FF0000">
+      <path d="M23.5 6.2a4.7 4.7 0 0 0-3.3-3.3C18.4 2.3 12 2.3 12 2.3s-6.4 0-8.2.6A4.7 4.7 0 0 0 .5 6.2A49.2 49.2 0 0 0 0 12a49.2 49.2 0 0 0 .5 5.8a4.7 4.7 0 0 0 3.3 3.3c1.8.6 8.2.6 8.2.6s6.4 0 8.2-.6a4.7 4.7 0 0 0 3.3-3.3A49.2 49.2 0 0 0 24 12a49.2 49.2 0 0 0-.5-5.8ZM9.75 15.02V8.98L15.5 12z"/>
+    </svg>
+    Oglądaj na YouTube
+  </a>
+  <a class="btn" href="https://paypal.me/Dayznb?country.x=PL&locale.x=en_US" target="_blank" rel="noopener">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#003087">
+      <path d="M7.2 20.8h-2l.4-2.6h1.9c2.7 0 4.8-2 5.2-4.6l.7-4.4c.1-.6-.4-1.2-1-1.2H8.2l.3-1.8h5.5c1.7 0 3 .9 2.7 2.8l-.8 5.1c-.4 2.6-2.6 4.6-5.2 4.6H8zM16.1 5.2H9.7l.3-1.8h6.4c1.8 0 3 .9 2.7 2.8l-.1.8c-.5-1.2-1.6-1.8-2.9-1.8Z"/>
+    </svg>
+    Wesprzyj darowizną
+  </a>
+</div>
+</section>
       <aside class="server-card" aria-label="Informacje o serwerze">
         <h2 style="margin-top:0" data-i18n="server.title">Serwer</h2>
         <div class="kv" role="list">
@@ -310,9 +320,18 @@
           <span>🗺️</span><span role="listitem" data-i18n="server.map">Mapa: Livonia</span>
           <span>🎮</span><span role="listitem" data-i18n="server.platform">Platforma: PC Only</span>
         </div>
-        <div class="cta-row">
-          <button class="btn" id="copy-ip" data-i18n="cta.copy">📋 Skopiuj IP i port</button>
-        </div>
+        
+<div class="cta-row">
+<button class="btn blink" id="copy-ip" data-i18n="cta.copy" aria-live="polite">
+  <span class="blood" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 2c3.5 5.2 7 9.2 7 13a7 7 0 1 1-14 0c0-3.8 3.5-7.8 7-13z"/>
+    </svg>
+  </span>
+  Skopiuj IP i port
+</button>
+</div>
+
       </aside>
     </div>
   </main>
@@ -359,51 +378,80 @@
         <a href="assets/img/shot4.jpg" class="gl"><img src="assets/img/shot4_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
         <a href="assets/img/shot5.jpg" class="gl"><img src="assets/img/shot5_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
         <a href="assets/img/shot6.jpg" class="gl"><img src="assets/img/shot6_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot7.jpg" class="gl"><img src="assets/img/shot7_sm.jpg" alt="Miasto o świcie" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot8.jpg" class="gl"><img src="assets/img/shot8_sm.jpg" alt="Wyprawa przez Livonię" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot9.jpg" class="gl"><img src="assets/img/shot9_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot10.jpg" class="gl"><img src="assets/img/shot10_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot11.jpg" class="gl"><img src="assets/img/shot11_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
+        <a href="assets/img/shot12.jpg" class="gl"><img src="assets/img/shot12_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
       </div>
       <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
         <img alt="Podgląd zdjęcia" />
       </div>
     </section>
 
-    
+    <!-- ===== Specjalne podziękowania ===== -->
+    <section id="thanks" class="panel" aria-label="Specjalne podziękowania">
+      <h2 data-i18n="thanks.title">Specjalne podziękowania</h2>
+      <div class="thanks-grid">
+        <div>
+          <p class="sub">„Dziękuje Wam – to dzięki Wam ta społeczność istnieje. Gdyby nie Wasze wsparcie, zaangażowanie i obecność, nie byłoby nas tutaj. Razem tworzymy coś wyjątkowego.”
+            ❤️</p>
+          <div class="placeholder">
+            <p><strong>🩸</strong> „Szczególnie <span class="blood-name">ROCKET</span>, <span class="blood-name">αδεσποτος1312</span> oraz <span class="blood-name">GEO SCULLY</span> — dzięki za pomoc przy starcie serwera. Bez Was to nie miałoby sensu.🩸”</p>
+          </div>
+        </div>
+        <figure class="thanks-thumb">
+          <a class="gl" href="assets/img/thx.jpg" aria-label="Powiększ zdjęcie z ekipy">
+            <img src="assets/img/thx_sm.jpg" alt="Miniatura — ekipa serwera" loading="lazy" width="640" height="360"/>
+          </a>
+          <figcaption class="sub">Kliknij miniaturę, aby powiększyć.</figcaption>
+        </figure>
+      </div>
+    </section>
 
-
-<section id="recommended" class="panel" aria-label="Polecane serwery">
-  <h2 data-i18n="rec.title">Polecane serwery — wzajemne wsparcie</h2>
-  <div class="rec-links">
-    <div class="rec-search">
-      <input id="recFilter" type="search" placeholder="Szukaj serwera… (np. 'vanilla', 'discord', 'PL')" aria-label="Filtruj serwery">
-    </div>
-    <ul id="recList">
-      <li class="rec-item" data-text="Serwer partnerski 1 discord survival rp livonia">
-        <a href="https://discord.gg/wmDF4GaMgY" target="_blank" rel="noopener">HollyRex</a>
-        <div class="rec-desc">➡ Discord</div>
-      </li>
-      </li><li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
-        <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" rel="noopener">Long Road To Salvation</a>
-        <div class="rec-desc">➡ Discord</div>
-      </li>
-      </li><li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
-        <a href="https://discord.gg/7nuyDvctgg" target="_blank" rel="noopener">The Devil Cristal</a>
-        <div class="rec-desc">➡ Discord</div>
-              </li><li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
-        <a href="https://discord.gg/XeqyDhmr8j" target="_blank" rel="noopener">Legion</a>
-        <div class="rec-desc">➡ Discord</div>
-      </li>
-      </li><li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
-        <a href="https://discord.gg/MyStory" target="_blank" rel="noopener">My story</a>
-        <div class="rec-desc">➡ Discord</div>
-      </li>
-      </li><li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
-        <a href="https://discord.gg/spaggie-s-servers-801491603310772255" target="_blank" rel="noopener">Serwer partnerski 3</a>
-        <div class="rec-desc">➡ Discord</div>
-      </li>
-    </li></ul>
-  </div>
-</section>
-
-
-
+    <section id="recommended" class="panel" aria-label="Polecane serwery">
+      <h2 data-i18n="rec.title">Polecane serwery — wzajemne wsparcie</h2>
+      <div class="rec-links">
+        <div class="rec-search">
+          <input id="recFilter" type="search" placeholder="Szukaj serwera… (np. 'vanilla', 'discord', 'PL')" aria-label="Filtruj serwery">
+        </div>
+        <ul id="recList">
+          <li class="rec-item" data-text="Serwer partnerski 1 discord survival rp livonia">
+            <a href="https://discord.gg/wmDF4GaMgY" target="_blank" rel="noopener">HollyRex</a>
+            <div class="rec-desc">➡ Discord</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
+            <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" rel="noopener">Long Road To Salvation</a>
+            <div class="rec-desc">➡ Discord</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
+            <a href="https://discord.gg/7nuyDvctgg" target="_blank" rel="noopener">The Devil Cristal</a>
+            <div class="rec-desc">➡ Discord</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
+            <a href="https://discord.gg/XeqyDhmr8j" target="_blank" rel="noopener">Legion</a>
+            <div class="rec-desc">➡ Discord</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
+            <a href="https://discord.gg/MyStory" target="_blank" rel="noopener">My story</a>
+            <div class="rec-desc">➡ Discord</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
+            <a href="https://discord.gg/spaggie-s-servers-801491603310772255" target="_blank" rel="noopener">Spaggie</a>
+            <div class="rec-desc">➡ Discord</div>
+              </li>
+          <li class="rec-item" data-text="Serwer partnerski 7 vanilla plus spolecznosc pl">
+            <a href="https://discord.com/dayz" target="_blank" rel="noopener">DAYZ</a>
+            <div class="rec-desc">➡ Official</div>
+          </li>
+          <li class="rec-item" data-text="Serwer partnerski 8 vanilla plus spolecznosc pl">
+            <a href="https://discord.com/7JmHtMxQhb" target="_blank" rel="noopener">DAYZ.PL</a>
+            <div class="rec-desc">➡ Serwis społeczności</div>
+          </li>
+        </ul>
+      </div>
+    </section>
 
     <section class="panel" aria-label="Cytat">
       <blockquote cite="https://www.dayz.com/" class="sub" style="border-left:3px solid var(--accent);padding-left:12px">
@@ -424,18 +472,17 @@
     <p>✅ Skopiowano IP i port!</p>
   </div>
 
-
   <script>
-    // i18n (PL / EN) — prosty mechanizm bez duplikowania całych sekcji
+    // i18n (PL / EN)
     const I18N = {
       pl: {
         kicker: 'VANILLA+ • 1PP • Livonia',
         'hero.title': 'Z popiołów starego świata wyłaniają się nowi ocaleni.',
         'hero.lede': 'DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.',
-        'cta.discord': '💬 Dołącz na Discord',
-        'cta.youtube': '▶ Oglądaj na YouTube',
-        'cta.donate': '💖 Wesprzyj darowizną',
-        'cta.copy': '📋 Skopiuj IP i port',
+        'cta.discord': 'Dołącz na Discord',
+        'cta.youtube': 'Oglądaj na YouTube',
+        'cta.donate': 'Wesprzyj darowizną',
+        'cta.copy': 'Skopiuj IP i port',
         'server.title': 'Serwer',
         'server.name': 'VANILLA+ | DayZ New Beginning [1PP]',
         'server.map': 'Mapa: Livonia',
@@ -458,7 +505,8 @@
         'how.caption': 'Przykład połączenia z poziomu launchera',
         'gallery.title': 'Galeria serwera',
         'rec.title': 'Polecane serwery — wzajemne wsparcie',
-        'nav.mods': 'Mody', 'nav.how':'Jak dołączyć','nav.gallery':'Galeria','nav.recommended':'Polecane',
+        'nav.mods': 'Mody', 'nav.how':'Jak dołączyć','nav.gallery':'Galeria','nav.recommended':'Polecane','nav.thanks':'Podziękowania',
+        'thanks.title': 'Specjalne podziękowania',
         'quote': '„W Livonii nie ma drugich szans… Przetrwają tylko silni, sprytni i szczęśliwi. Wybierz mądrze swoją ścieżkę.”',
         'footer.made': 'Ta strona powstała dla społeczności DayZ — aby grać, tworzyć i przetrwać razem. 🧟'
       },
@@ -466,10 +514,10 @@
         kicker: 'VANILLA+ • 1PP • Livonia',
         'hero.title': 'From the ashes of the old world, new survivors rise.',
         'hero.lede': 'DayZ New Beginning is raw survival. Loot, build, forge your story, and be careful who you trust.',
-        'cta.discord': '💬 Join our Discord',
-        'cta.youtube': '▶ Watch on YouTube',
-        'cta.donate': '💖 Support with a Donation',
-        'cta.copy': '📋 Copy IP & Port',
+        'cta.discord': 'Join our Discord',
+        'cta.youtube': 'Watch on YouTube',
+        'cta.donate': 'Support with a Donation',
+        'cta.copy': 'Copy IP & Port',
         'server.title': 'Server',
         'server.name': 'VANILLA+ | DayZ New Beginning [1PP]',
         'server.map': 'Map: Livonia',
@@ -492,7 +540,8 @@
         'how.caption': 'Example connection from the original launcher',
         'gallery.title': 'Server Gallery',
         'rec.title': 'Recommended Servers — Mutual Support',
-        'nav.mods': 'Mods', 'nav.how':'How to Join','nav.gallery':'Gallery','nav.recommended':'Recommended',
+        'nav.mods': 'Mods', 'nav.how':'How to Join','nav.gallery':'Gallery','nav.recommended':'Recommended','nav.thanks':'Thanks',
+        'thanks.title': 'Special Thanks',
         'quote': '“There are no second chances in Livonia… Only the strong, clever, and lucky survive. Choose wisely.”',
         'footer.made': 'Built for the DayZ community — to play, create, and survive together. 🧟'
       }
@@ -514,51 +563,54 @@
       btn.addEventListener('click',()=>applyI18n(btn.dataset.lang));
     });
 
-    
-// Copy IP (robust with fallback + overlay)
-const copyBtn = document.getElementById('copy-ip');
+    // Copy IP (robust with fallback + overlay)
+    const copyBtn = document.getElementById('copy-ip');
 
-async function copyToClipboard(text){
-  if (navigator.clipboard && window.isSecureContext){
-    try { await navigator.clipboard.writeText(text); return true; } catch(e){}
-  }
-  const ta = document.createElement('textarea');
-  ta.value = text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
-  document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
-  let ok=false; try { ok=document.execCommand('copy'); } catch(e){ ok=false; }
-  document.body.removeChild(ta); return ok;
-}
+    async function copyToClipboard(text){
+      if (navigator.clipboard && window.isSecureContext){
+        try { await navigator.clipboard.writeText(text); return true; } catch(e){}
+      }
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly',''); ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0, ta.value.length);
+      let ok=false; try { ok=document.execCommand('copy'); } catch(e){ ok=false; }
+      document.body.removeChild(ta); return ok;
+    }
 
-copyBtn.addEventListener('click', async ()=>{
-  const text = '85.190.162.83:11900';
-  const copyOverlay = document.getElementById('copyOverlay'); // query now
+    if (copyBtn){
+      copyBtn.addEventListener('click', async ()=>{
+        const text = '85.190.162.83:11900';
+        const copyOverlay = document.getElementById('copyOverlay');
 
-  const ok = await copyToClipboard(text);
-  if (ok){
-    if (copyOverlay){ copyOverlay.classList.add('show'); setTimeout(()=>copyOverlay.classList.remove('show'), 3000); }
-    copyBtn.classList.add('success'); const prev=copyBtn.textContent; copyBtn.textContent='✅ Skopiowano!';
-    setTimeout(()=>{ copyBtn.classList.remove('success'); copyBtn.textContent=prev; }, 2000);
-  } else {
-    const prev=copyBtn.textContent; copyBtn.classList.add('error'); copyBtn.textContent='❌ Błąd kopiowania';
-    try{ window.prompt('Skopiuj ręcznie:', text); }catch(e){}
-    setTimeout(()=>{ copyBtn.classList.remove('error'); copyBtn.textContent=prev; }, 2000);
-  }
-});
+        const ok = await copyToClipboard(text);
+        if (ok){
+          if (copyOverlay){ copyOverlay.classList.add('show'); setTimeout(()=>copyOverlay.classList.remove('show'), 3000); }
+          copyBtn.classList.add('success'); const prev=copyBtn.textContent; copyBtn.textContent='✅ Skopiowano!';
+          setTimeout(()=>{ copyBtn.classList.remove('success'); copyBtn.textContent=prev; }, 2000);
+        } else {
+          const prev=copyBtn.textContent; copyBtn.classList.add('error'); copyBtn.textContent='❌ Błąd kopiowania';
+          try{ window.prompt('Skopiuj ręcznie:', text); }catch(e){}
+          setTimeout(()=>{ copyBtn.classList.remove('error'); copyBtn.textContent=prev; }, 2000);
+        }
+      });
+    }
 
-// Allow closing overlay on click (if present)
-document.addEventListener('click', (e)=>{
-  const ov = document.getElementById('copyOverlay');
-  if (ov && e.target === ov){ ov.classList.remove('show'); }
-});
+    // Allow closing overlay on click (if present)
+    document.addEventListener('click', (e)=>{
+      const ov = document.getElementById('copyOverlay');
+      if (ov && e.target === ov){ ov.classList.remove('show'); }
+    });
 
     // Gallery lightbox (keyboard friendly)
     const lb = document.getElementById('lightbox');
     const lbImg = lb.querySelector('img');
-    document.querySelectorAll('.gallery a.gl').forEach(a=>{
+    document.querySelectorAll('.gallery a.gl, #thanks a.gl').forEach(a=>{
       a.addEventListener('click', e=>{ e.preventDefault(); lbImg.src=a.href; lb.classList.add('open'); lb.tabIndex=0; lb.focus(); })
     });
-    lb.addEventListener('click', ()=> lb.classList.remove('open'));
-    lb.addEventListener('keydown', e=>{ if(e.key==='Escape') lb.classList.remove('open') })
+    if (lb){
+      lb.addEventListener('click', ()=> lb.classList.remove('open'));
+      lb.addEventListener('keydown', e=>{ if(e.key==='Escape') lb.classList.remove('open') })
+    }
 
     // Recommended filter
     const recFilter = document.getElementById('recFilter');
@@ -578,5 +630,6 @@ document.addEventListener('click', (e)=>{
 
     // Initial language: PL
     applyI18n('pl');
-  </script></body>
+  </script>
+</body>
 </html>
