@@ -42,9 +42,6 @@
     .brand img{width:160px;height:auto}
     .nav{display:flex;gap:18px;align-items:center}
     .nav a{font-weight:600;opacity:.9}
-    .lang{display:flex;gap:8px}
-    .lang button{background:transparent;border:1px solid rgba(255,255,255,.15);color:#fff;padding:6px 10px;border-radius:8px;cursor:pointer}
-    .lang button.active{border-color:var(--accent)}
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
@@ -266,10 +263,6 @@
         <a href="#recommended" data-i18n="nav.recommended">Polecane</a>
         <a href="#thanks" data-i18n="nav.thanks">Podziękowania</a>
       </nav>
-      <div class="lang" role="group" aria-label="Wybór języka">
-        <button type="button" data-lang="pl" class="active" aria-pressed="true">PL</button>
-        <button type="button" data-lang="en" aria-pressed="false">EN</button>
-      </div>
     </div>
   </header>
 
@@ -354,7 +347,7 @@
         <li><strong>Notes</strong> — <span data-i18n="mods.notes">wiadomości w świecie</span></li>
         <li><strong>EarlPlug</strong> — <span data-i18n="mods.earl">ciszej klawiszem „N”</span></li>
         <li><strong>Build Options</strong> — <span data-i18n="mods.build">barykady, namioty, skrzynie</span></li>
-        <li><strong>Basic Map</strong> — <span data-i18n="mods.build">Znajdz mape, Kompas i długopis ułatwienie dla graczy w postaci mapy</span></li>
+        <li><strong>Basic Map</strong> — <span data-i18n="mods.map">Znajdź mapę, kompas i długopis — ułatwienie dla graczy w postaci mapy</span></li>
       </ul>
       <p class="sub" data-i18n="mods.tag">Stawiamy na wymagającą grę — dasz radę?</p>
     </section>
@@ -514,109 +507,6 @@
   </div>
 
   <script>
-    // i18n (PL / EN)
-    const I18N = {
-  pl: {
-    kicker: 'VANILLA+ • 1PP • Livonia',
-    'hero.title': 'Z popiołów starego świata wyłaniają się nowi ocaleni.',
-    'hero.lede': 'DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.',
-    'cta.discord': 'Dołącz na Discord',
-    'cta.youtube': 'Oglądaj na YouTube',
-    'cta.donate': 'Wesprzyj darowizną',
-    'cta.copy': 'Skopiuj IP i port',
-    'server.title': 'Serwer',
-    'server.name': 'VANILLA+ | DayZ New Beginning [1PP]',
-    'server.map': 'Mapa: Livonia',
-    'server.platform': 'Platforma: PC Only',
-    'story.title': 'Nasza historia',
-    'story.text': 'Powstaliśmy z nocnych potyczek, ogniskowych opowieści i chęci zbalansowanej rozgrywki. To świat, w którym Twoja historia ma znaczenie.',
-    'mods.title': 'Aktywne mody',
-    'mods.codelock': 'zabezpieczenia baz',
-    'mods.mmg': 'sprytne magazynowanie',
-    'mods.notes': 'wiadomości w świecie',
-    'mods.earl': 'ciszej klawiszem “N”',
-    'mods.build': 'barykady, namioty, skrzynie',
-    'mods.build': 'Znajdz mape, Kompas i długopis ułatwienie dla graczy w postaci mapy,
-    'mods.tag': 'Stawiamy na wymagającą grę — dasz radę?',
-    'how.title': 'Jak dołączyć',
-    'how.1': 'Uruchom DayZ',
-    'how.2': 'Wybierz „Połącz przez IP”',
-    'how.3': 'Wpisz IP: 85.190.162.83',
-    'how.4': 'Wpisz Port: 11900',
-    'how.5': 'Poczekaj na pobranie modów',
-    'how.caption': 'Przykład połączenia z poziomu launchera',
-    'gallery.title': 'Galeria serwera',
-    'rec.title': 'Polecane serwery — wzajemne wsparcie',
-    'nav.mods': 'Mody',
-    'nav.how': 'Jak dołączyć',
-    'nav.gallery': 'Galeria',
-    'nav.recommended': 'Polecane',
-    'nav.thanks': 'Podziękowania',
-    'nav.rules': 'Regulamin',
-    'thanks.title': 'Specjalne podziękowania',
-    'rules.title': 'Regulamin DAYZ',
-    'quote': '„W Livonii nie ma drugich szans… Przetrwają tylko silni, sprytni i szczęśliwi. Wybierz mądrze swoją ścieżkę.”',
-    'footer.made': 'Ta strona powstała dla społeczności DayZ — aby grać, tworzyć i przetrwać razem. 🧟'
-  },
-  en: {
-    kicker: 'VANILLA+ • 1PP • Livonia',
-    'hero.title': 'From the ashes of the old world, new survivors rise.',
-    'hero.lede': 'DayZ New Beginning is raw survival. Loot, build, forge your story, and be careful who you trust.',
-    'cta.discord': 'Join our Discord',
-    'cta.youtube': 'Watch on YouTube',
-    'cta.donate': 'Support with a Donation',
-    'cta.copy': 'Copy IP & Port',
-    'server.title': 'Server',
-    'server.name': 'VANILLA+ | DayZ New Beginning [1PP]',
-    'server.map': 'Map: Livonia',
-    'server.platform': 'Platform: PC Only',
-    'story.title': 'Our Story',
-    'story.text': 'Born from moonlit firefights and campfire tales, balanced for immersion. A world where your story matters.',
-    'mods.title': 'Active Mods',
-    'mods.codelock': 'base security',
-    'mods.mmg': 'smart storage',
-    'mods.notes': 'world notes',
-    'mods.earl': 'reduce volume with “N”',
-    'mods.build': 'barricades, tents, crates',
-    'mods.tag': 'We aim for a tough experience — can you handle it?',
-    'how.title': 'How to Join',
-    'how.1': 'Open DayZ',
-    'how.2': 'Use “Connect via IP”',
-    'how.3': 'Enter IP: 85.190.162.83',
-    'how.4': 'Enter Port: 11900',
-    'how.5': 'Let DayZ load required mods',
-    'how.caption': 'Example connection from the original launcher',
-    'gallery.title': 'Server Gallery',
-    'rec.title': 'Recommended Servers — Mutual Support',
-    'nav.mods': 'Mods',
-    'nav.how': 'How to Join',
-    'nav.gallery': 'Gallery',
-    'nav.recommended': 'Recommended',
-    'nav.thanks': 'Thanks',
-    'nav.rules': 'Rules',
-    'thanks.title': 'Special Thanks',
-    'rules.title': 'Server Rules',
-    'quote': '“There are no second chances in Livonia… Only the strong, clever, and lucky survive. Choose wisely.”',
-    'footer.made': 'Built for the DayZ community — to play, create, and survive together. 🧟'
-  }
-};
-
-    function applyI18n(lang){
-      document.querySelectorAll('[data-i18n]').forEach(el=>{
-        const key = el.getAttribute('data-i18n');
-        if(I18N[lang] && I18N[lang][key]) el.textContent = I18N[lang][key];
-      });
-      document.documentElement.lang = lang;
-      document.querySelectorAll('.lang button').forEach(b=>{
-        const active = b.dataset.lang===lang; b.classList.toggle('active', active); b.setAttribute('aria-pressed', String(active));
-      })
-    }
-
-    // Language switch
-    document.querySelectorAll('.lang button').forEach(btn=>{
-      btn.addEventListener('click',()=>applyI18n(btn.dataset.lang));
-    });
-
     // Copy IP (robust with fallback + overlay)
     const copyBtn = document.getElementById('copy-ip');
 
@@ -681,9 +571,6 @@
 
     // Year
     document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Initial language: PL
-    applyI18n('pl');
   </script>
 </body>
 </html>
