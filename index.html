@@ -6,70 +6,139 @@
   <title>DayZ New Beginning | VANILLA+ 1PP • Livonia</title>
   <meta name="description" content="DayZ New Beginning — VANILLA+ 1PP na mapie Livonia. IP: 85.190.162.83:11900. Dołącz, zobacz mody, poradnik łączenia i galerię." />
   <meta name="theme-color" content="#111112" />
-  <!-- Open Graph -->
+
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="DayZ New Beginning" />
   <meta property="og:title" content="DayZ New Beginning | VANILLA+ 1PP • Livonia" />
   <meta property="og:description" content="Serwer DayZ VANILLA+ 1PP na mapie Livonia. IP: 85.190.162.83:11900." />
   <meta property="og:image" content="assets/img/og-cover.jpg" />
   <meta property="og:url" content="https://www.dayznb.pl/" />
+
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preload" as="image" href="assets/img/hero-bg.jpg" />
   <link rel="preload" as="image" href="assets/img/logo.png" />
+  <link rel="preload" as="image" href="assets/img/fog.gif" />
+
   <style>
     :root{
-      --bg: #0e0e0e; --panel: #171717; --accent: #cc0000; --text:#eaeaea; --muted:#a9a9a9; --link:#58a6ff;
+      --bg:#0e0e0e; --panel:#171717; --accent:#cc0000; --text:#eaeaea; --muted:#a9a9a9; --link:#58a6ff;
       --shadow: 0 8px 28px rgba(0,0,0,.55);
       --green:#22c55e; --red:#ef4444;
 
-      /* Kolorystyka plakietki VANILLA+ (u góry po lewej) */
       --tag-bg: rgba(204,0,0,.20);
       --tag-bd: rgba(204,0,0,.35);
       --tag-fg: #ffc9c9;
+
+      --vignette: radial-gradient(ellipse at center, rgba(0,0,0,0) 35%, rgba(0,0,0,.55) 70%, rgba(0,0,0,.85) 100%);
+      --glow: 0 0 10px rgba(204,0,0,.35), 0 0 22px rgba(204,0,0,.18);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;background:var(--bg);color:var(--text);}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Helvetica,Arial,sans-serif;
+      background:var(--bg); color:var(--text);
+      overflow-x:hidden;
+    }
     a{color:var(--link);text-decoration:none}
     img{max-width:100%;display:block}
     .wrap{max-width:1080px;margin:0 auto;padding:24px}
 
+    /* Enter */
+    body.preload #pageRoot{opacity:0;transform:translateY(10px) scale(1.01);filter:blur(2px)}
+    body.loaded #pageRoot{opacity:1;transform:translateY(0) scale(1);filter:blur(0);transition:opacity .9s ease,transform .9s ease,filter .9s ease}
+
+    /* Intro */
+    .intro{position:fixed;inset:0;z-index:5000;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.88);opacity:1;transition:opacity .9s ease;pointer-events:all}
+    .intro.hide{opacity:0;pointer-events:none}
+    .intro::before{
+      content:"";position:absolute;inset:-20%;
+      background: var(--vignette), url("assets/img/fog.gif") center/cover no-repeat;
+      filter:contrast(1.15) brightness(.9) saturate(.9);
+      opacity:.9;transform:scale(1.04);
+      animation:fogDrift 6.5s ease-in-out infinite;
+    }
+    .intro::after{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
+    @keyframes fogDrift{0%,100%{transform:translate3d(0,0,0) scale(1.05)}50%{transform:translate3d(-1.2%,-0.8%,0) scale(1.08)}}
+    .intro-card{
+      position:relative;width:min(720px,92vw);padding:22px 20px;border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);background:rgba(10,10,10,.45);
+      box-shadow:0 18px 60px rgba(0,0,0,.75);backdrop-filter:blur(10px) saturate(150%);
+      text-align:center;overflow:hidden;
+    }
+    .intro-card h2{margin:0 0 10px;font-size:clamp(1.2rem,2.2vw,1.6rem);letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:var(--glow)}
+    .intro-card p{margin:0;color:#d7d7d7;line-height:1.45}
+    .intro-card .hint{
+      margin-top:12px;display:inline-flex;gap:8px;align-items:center;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--tag-fg);box-shadow:var(--glow);font-weight:700;
+    }
+    .intro-card .blood-dot{width:10px;height:10px;border-radius:999px;background:#b10000;box-shadow:0 0 10px rgba(255,0,0,.45);animation:pulseDot 1.1s ease-in-out infinite}
+    @keyframes pulseDot{0%,100%{transform:scale(1);opacity:.85}50%{transform:scale(1.25);opacity:1}}
+
+    /* FX */
+    .fx{position:fixed;inset:0;z-index:1200;pointer-events:none;mix-blend-mode:overlay;opacity:.35}
+    .fx::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(to bottom,rgba(255,255,255,.05) 0,rgba(255,255,255,0) 2px,rgba(255,255,255,0) 6px);opacity:.45}
+    .fx::after{
+      content:"";position:absolute;inset:-30%;
+      background:
+        radial-gradient(circle at 30% 10%, rgba(255,255,255,.06), transparent 45%),
+        radial-gradient(circle at 80% 70%, rgba(255,255,255,.05), transparent 50%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='.38'/%3E%3C/svg%3E");
+      opacity:.18;animation:grainMove 4.2s steps(8) infinite;filter:contrast(1.2);
+    }
+    @keyframes grainMove{
+      0%{transform:translate3d(0,0,0)}20%{transform:translate3d(-2%,1%,0)}40%{transform:translate3d(1%,-2%,0)}
+      60%{transform:translate3d(2%,2%,0)}80%{transform:translate3d(-1%,2%,0)}100%{transform:translate3d(0,0,0)}
+    }
+    .flicker{position:fixed;inset:0;z-index:1199;pointer-events:none;animation:flicker 7.5s infinite;opacity:.08}
+    @keyframes flicker{
+      0%,100%{opacity:.08}12%{opacity:.12}13%{opacity:.28}14%{opacity:.08}
+      55%{opacity:.10}56%{opacity:.26}57%{opacity:.10}
+      92%{opacity:.14}93%{opacity:.30}94%{opacity:.08}
+    }
+
+    /* Background */
+    body{
+      background:url("assets/img/hero-bg.jpg") center top/cover no-repeat fixed;
+      background-attachment:fixed;
+    }
+    body::before{content:"";position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:-1}
+
     /* Header */
     .topbar{position:sticky;top:0;z-index:50;background:rgba(14,14,14,.7);backdrop-filter:saturate(140%) blur(8px);border-bottom:1px solid rgba(255,255,255,.06)}
     .topbar-inner{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:10px 24px}
-    .brand{display:flex;align-items:center;gap:12px}
-    .brand img{width:160px;height:auto}
-    .nav{display:flex;gap:18px;align-items:center}
+    .brand{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+    .brand img{width:160px;height:auto;filter:drop-shadow(0 0 16px rgba(0,0,0,.6))}
+    .brand-tags{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .tag{display:inline-block;background:var(--tag-bg);border:1px solid var(--tag-bd);color:var(--tag-fg);padding:2px 8px;border-radius:999px;font-size:.8rem}
+    .nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
     .nav a{font-weight:600;opacity:.9}
 
     /* Hero */
     .hero{position:relative;isolation:isolate}
-    .hero::before{content:"";position:absolute;inset:0;background:url('assets/img/hero-bg.jpg') center/cover fixed;z-index:-2}
-    .hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.50),rgba(0,0,0,.65));z-index:-1}
     .hero-inner{padding:72px 24px 40px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px}
     .kicker{color:var(--muted);letter-spacing:.12em;text-transform:uppercase;font-size:.9rem}
     h1{font-size:clamp(1.8rem,3vw,2.6rem);margin:.25em 0 .4em;color:var(--text)}
     .lede{color:#d6d6d6;max-width:56ch}
     .cta-row{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);font-weight:600;background:#1c1c1c;box-shadow:var(--shadow);position:relative;overflow:hidden; line-height:1}
-    .btn svg{width:18px;height:18px;display:block}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,.12);font-weight:600;background:#1c1c1c;box-shadow:var(--shadow);position:relative;overflow:hidden;line-height:1}
     .btn.primary{background:var(--accent);border-color:transparent}
     .btn:hover{filter:brightness(1.08)}
     .server-card{background:rgba(23,23,23,.92);padding:18px;border-radius:14px;border:1px solid rgba(255,255,255,.08);box-shadow:var(--shadow)}
     .kv{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:center}
-    .tag{display:inline-block;background:var(--tag-bg);border:1px solid var(--tag-bd);color:var(--tag-fg);padding:2px 8px;border-radius:999px;font-size:.8rem}
 
     /* Sections */
     section{padding:40px 0}
-    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:var(--shadow);padding:24px}
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:14px;box-shadow:var(--shadow);padding:24px;position:relative;overflow:hidden}
+    .panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 10%, rgba(204,0,0,.08), transparent 45%);opacity:.7;pointer-events:none}
     h2{font-size:1.6rem;margin:0 0 12px;color:#fff}
     .sub{color:var(--muted);margin-bottom:8px}
     ul{margin:8px 0 0 1rem}
 
-    .grid{display:grid;gap:18px}
-    .grid.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
-    .grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+    /* Reveal */
+    .reveal{opacity:0;transform:translateY(14px);filter:blur(1px);transition:opacity .8s ease, transform .8s ease, filter .8s ease;will-change:opacity, transform}
+    .reveal.in-view{opacity:1;transform:translateY(0);filter:blur(0)}
 
     /* Gallery */
     .gallery{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
@@ -80,440 +149,603 @@
     .lightbox.open{display:flex}
     .lightbox img{max-width:min(92vw,1200px);max-height:86vh;border-radius:12px}
 
-    /* Recommended */
-    .rec-card{position:relative;overflow:hidden;border-radius:12px}
-    .rec-card img{width:100%;height:180px;object-fit:cover;transition:opacity .25s ease}
-    .rec-card .overlay{position:absolute;inset:0;display:grid;place-items:center;background:linear-gradient(180deg,transparent,rgba(0,0,0,.6));opacity:0;transition:opacity .25s}
-    .rec-card:hover .overlay{opacity:1}
-
     /* Footer */
     footer{padding:32px 0 60px;color:var(--muted);text-align:center}
 
-    /* Responsive */
-    @media (max-width:900px){.hero-inner{grid-template-columns:1fr}.grid.cols-2{grid-template-columns:1fr}.grid.cols-3{grid-template-columns:repeat(2,1fr)}}
-    @media (max-width:560px){.topbar-inner{flex-wrap:wrap;gap:10px}.brand img{width:140px}.grid.cols-3{grid-template-columns:1fr}}
-
-    /* Accessibility */
-    @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto} .gallery img{transition:none} .rec-card img{transition:none}}
-
-    body {
-      background: url("assets/img/hero-bg.jpg") center top / cover no-repeat fixed;
-      background-attachment: fixed;
-      margin: 0;
-      padding: 0;
-      color: var(--text);
-    }
-    body::before {
-      content: "";
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.4);
-      z-index: -1;
-    }
-    .hero::before { background: none; }
-    .hero::after { background: none; }
-
-    .rec-links ul { list-style: none; padding: 0; }
-    .rec-links li { margin: 6px 0; }
-    .rec-links a { font-weight: 600; color: var(--link); }
-
-    .btn.success { background: #2ecc71 !important; border-color: #27ae60 !important; color: #fff !important; transition: background 0.3s ease; }
-    .btn.error { background: #e74c3c !important; border-color: #c0392b !important; color: #fff !important; transition: background 0.3s ease; }
-
-    .rec-item { position: relative; margin: 8px 0; }
-    .rec-desc { max-height: 0; overflow: hidden; color: var(--muted); font-size: 0.9rem; transition: max-height 0.4s ease, opacity 0.4s ease; opacity: 0; }
-    .rec-item:hover .rec-desc { max-height: 100px; opacity: 1; }
-
-    /* --- Recommended: kompaktowy, przewijalny panel --- */
-    #recommended .rec-links { max-height: 320px; overflow: auto; padding-right: 6px; scroll-behavior: smooth; border-radius: 10px; }
-    #recommended .rec-links::-webkit-scrollbar { width: 10px; }
-    #recommended .rec-links::-webkit-scrollbar-thumb { background: rgba(255,255,255,.15); border-radius: 8px; }
-    #recommended .rec-links::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,.25); }
-    #recommended .rec-search { position: sticky; top: 0; z-index: 1; background: var(--panel); padding-bottom: 8px; margin-bottom: 8px; }
-    #recommended .rec-search input { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(255,255,255,.12); background: #1c1c1c; color: var(--text); }
-    #recommended .rec-links ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 8px 12px; }
-    #recommended .rec-item { margin: 0; padding: 10px 12px; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; background: rgba(255,255,255,.02); transition: transform .15s ease, background .2s ease, border-color .2s ease; }
-    #recommended .rec-item:hover { transform: translateY(-2px); background: rgba(255,255,255,.04); border-color: rgba(255,255,255,.18); }
-    #recommended .rec-item > a { display: inline-block; font-weight: 600; }
-    #recommended .rec-desc { margin-top: 6px; }
-
-    /* Mobile: jedna kolumna poniżej 560px */
-    @media (max-width:560px){
-      #recommended .rec-links { max-height: 380px; }
-      #recommended .rec-links ul { grid-template-columns: 1fr; }
-    }
-
-    .overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      z-index: 3000; opacity: 0; pointer-events: none; transition: opacity 0.5s ease;
-    }
-    .overlay img { max-width: 100%; max-height: 100%; object-fit: cover; }
-    .overlay.show { opacity: 1; pointer-events: all; }
-    .overlay p {
-      position: absolute; bottom: 40px; color: #fff; font-size: 1.6rem; font-weight: bold;
-      background: rgba(0,0,0,0.5); padding: 10px 18px; border-radius: 8px;
-    }
-
-    /* === Mobile polish (≤ 560px) === */
-    @media (max-width: 560px){
-      body { background-attachment: scroll; }
-      .wrap { padding: 16px; }
-      .hero-inner { padding: 48px 16px 28px; gap: 18px; }
-      .topbar-inner { padding: 10px 16px; gap: 10px; }
-      .nav { flex-wrap: wrap; gap: 10px; }
-      .grid.cols-2, .grid.cols-3 { grid-template-columns: 1fr; }
-      .gallery img { height: 160px; object-fit: cover; }
-      #recommended .rec-links { max-height: 380px; }
-      #recommended .rec-links ul { grid-template-columns: 1fr; }
-      .rec-item > a { word-break: break-word; }
-      .btn { padding: 12px 14px; }
-    }
-    @media (max-width: 900px){ .wrap { padding: 20px; } }
-
-    /* ====== ZMIANA: przycisk kopiowania jak plakietka VANILLA+ ====== */
+    /* Copy IP button */
+    .btn.success{background:#2ecc71 !important;border-color:#27ae60 !important;color:#fff !important}
+    .btn.error{background:#e74c3c !important;border-color:#c0392b !important;color:#fff !important}
     #copy-ip{
-      background: var(--tag-bg);
-      border: 1px solid var(--tag-bd);
-      color: var(--tag-fg);
-      padding-left: 40px; /* miejsce na ikonę kropli */
+      background:var(--tag-bg);
+      border:1px solid var(--tag-bd);
+      color:var(--tag-fg);
+      padding-left:40px;
     }
-    #copy-ip.blink {
-      animation: tagPulse 1.4s ease-in-out infinite;
+    #copy-ip.blink{animation:tagPulse 1.4s ease-in-out infinite}
+    #copy-ip .blood{
+      position:absolute;left:10px;top:50%;transform:translateY(-50%);
+      display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+      filter:drop-shadow(0 0 6px rgba(255,0,0,.5));
+      animation:pulse 1.4s ease-in-out infinite;color:var(--tag-fg);
     }
-    #copy-ip .blood { /* ikonka kropli */
-      position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
-      display: inline-flex; align-items: center; justify-content: center;
-      width: 22px; height: 22px;
-      filter: drop-shadow(0 0 6px rgba(255,0,0,.5));
-      animation: pulse 1.4s ease-in-out infinite;
-      color: var(--tag-fg);
-    }
-    #copy-ip .blood svg { width: 18px; height: 18px; display: block; }
+    #copy-ip .blood svg{width:18px;height:18px;display:block}
+    @keyframes tagPulse{0%,100%{box-shadow:0 0 0 rgba(204,0,0,0);background:var(--tag-bg)}50%{box-shadow:0 0 16px rgba(204,0,0,.35);background:rgba(204,0,0,.28)}}
+    @keyframes pulse{0%,100%{transform:translateY(-50%) scale(1);opacity:.9}50%{transform:translateY(-50%) scale(1.2);opacity:1}}
 
-    @keyframes tagPulse {
-      0%,100% { box-shadow: 0 0 0 rgba(204,0,0,0); background: var(--tag-bg); }
-      50%     { box-shadow: 0 0 16px rgba(204,0,0,.35); background: rgba(204,0,0,.28); }
+    /* Server tabs */
+    .server-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:6px 0 12px}
+    .server-tab{
+      cursor:pointer;padding:8px 10px;border-radius:999px;border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.02);color:var(--text);font-weight:800;font-size:.9rem;
+      transition:transform .12s ease, background .2s ease, border-color .2s ease;user-select:none;
     }
-    @keyframes pulse {
-      0%, 100% { transform: translateY(-50%) scale(1); opacity: .9; }
-      50%      { transform: translateY(-50%) scale(1.2); opacity: 1; }
-    }
+    .server-tab:hover{transform:translateY(-1px);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.2)}
+    .server-tab.active{background:var(--tag-bg);border-color:var(--tag-bd);color:var(--tag-fg);box-shadow:var(--glow)}
 
-    /* ====== Sekcja Specjalne podziękowania ====== */
-    #thanks .thanks-grid{ display:grid; grid-template-columns:1.2fr .8fr; gap:18px; }
-    #thanks .thanks-thumb{ border-radius:12px; overflow:hidden; border:1px solid rgba(255,255,255,.1); box-shadow: var(--shadow); }
-    #thanks .thanks-thumb img{ width:100%; height:auto; display:block; }
-    #thanks .placeholder{ color: var(--muted); background: rgba(255,255,255,.03); border: 1px dashed rgba(255,255,255,.12); border-radius: 10px; padding: 14px; }
-    @media (max-width:900px){ #thanks .thanks-grid{ grid-template-columns: 1fr; } }
-  
-    /* === Blood Name effect === */
+    /* Overlay */
+    .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:3000;opacity:0;pointer-events:none;transition:opacity 0.5s ease}
+    .overlay img{max-width:100%;max-height:100%;object-fit:cover}
+    .overlay.show{opacity:1;pointer-events:all}
+    .overlay p{position:absolute;bottom:40px;color:#fff;font-size:1.6rem;font-weight:bold;background:rgba(0,0,0,0.5);padding:10px 18px;border-radius:8px}
+
+    /* Podziękowania (Twoje) */
+    #thanks .thanks-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px}
+    #thanks .thanks-thumb{border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:var(--shadow)}
+    #thanks .thanks-thumb img{width:100%;height:auto;display:block}
+    #thanks .placeholder{color:var(--muted);background:rgba(255,255,255,.03);border:1px dashed rgba(255,255,255,.12);border-radius:10px;padding:14px}
+    @media (max-width:900px){#thanks .thanks-grid{grid-template-columns:1fr}}
+
     .blood-name{
-      color:#b10000;
-      font-weight:800;
-      position:relative;
-      text-transform:uppercase;
-      text-shadow: 0 0 6px rgba(255,0,0,.45), 0 0 18px rgba(255,0,0,.25);
-      animation: bloodPulse 1.4s ease-in-out infinite;
+      color:#b10000;font-weight:800;position:relative;text-transform:uppercase;
+      text-shadow:0 0 6px rgba(255,0,0,.45), 0 0 18px rgba(255,0,0,.25);
+      animation:bloodPulse 1.4s ease-in-out infinite;
     }
-    @keyframes bloodPulse{
-      0%,100%{ filter: drop-shadow(0 0 0 rgba(255,0,0,0.0)); transform: translateY(0) scale(1); }
-      50%{ filter: drop-shadow(0 0 10px rgba(255,0,0,.45)); transform: translateY(-1px) scale(1.03); }
-    }
+    @keyframes bloodPulse{0%,100%{filter:drop-shadow(0 0 0 rgba(255,0,0,0));transform:translateY(0) scale(1)}50%{filter:drop-shadow(0 0 10px rgba(255,0,0,.45));transform:translateY(-1px) scale(1.03)}}
     .blood-name::before, .blood-name::after{
-      content:"";
-      position:absolute;
-      left:50%;
-      top:100%;
-      width:4px; height:10px;
-      background: linear-gradient(#b10000, #5a0000);
-      border-radius:2px;
-      transform: translateX(-50%);
-      opacity:.9;
-      animation: bloodDrip 1.8s cubic-bezier(.2,.7,.2,1) infinite;
-      box-shadow: 0 2px 6px rgba(0,0,0,.5);
+      content:"";position:absolute;left:50%;top:100%;width:4px;height:10px;
+      background:linear-gradient(#b10000, #5a0000);border-radius:2px;transform:translateX(-50%);
+      opacity:.9;animation:bloodDrip 1.8s cubic-bezier(.2,.7,.2,1) infinite;box-shadow:0 2px 6px rgba(0,0,0,.5);
     }
-    .blood-name::after{
-      left:60%;
-      width:3px; height:7px;
-      animation-duration: 2.2s;
-      opacity:.8;
-    }
-    @keyframes bloodDrip{
-      0%{ transform: translate(-50%,0) scaleY(0); opacity:0; }
-      30%{ transform: translate(-50%,2px) scaleY(1); opacity:1; }
-      100%{ transform: translate(-50%,14px) scaleY(1); opacity:0; }
-    }
-    
-</style>
+    .blood-name::after{left:60%;width:3px;height:7px;animation-duration:2.2s;opacity:.8}
+    @keyframes bloodDrip{0%{transform:translate(-50%,0) scaleY(0);opacity:0}30%{transform:translate(-50%,2px) scaleY(1);opacity:1}100%{transform:translate(-50%,14px) scaleY(1);opacity:0}}
+
+    /* Recommended (Twoje) */
+    .rec-links ul{list-style:none;padding:0}
+    .rec-links li{margin:6px 0}
+    .rec-links a{font-weight:600;color:var(--link)}
+    .rec-item{position:relative;margin:8px 0}
+    .rec-desc{max-height:0;overflow:hidden;color:var(--muted);font-size:.9rem;transition:max-height .4s ease, opacity .4s ease;opacity:0}
+    .rec-item:hover .rec-desc{max-height:100px;opacity:1}
+    #recommended .rec-links{max-height:320px;overflow:auto;padding-right:6px;scroll-behavior:smooth;border-radius:10px}
+    #recommended .rec-links::-webkit-scrollbar{width:10px}
+    #recommended .rec-links::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);border-radius:8px}
+    #recommended .rec-links::-webkit-scrollbar-thumb:hover{background:rgba(255,255,255,.25)}
+    #recommended .rec-search{position:sticky;top:0;z-index:1;background:var(--panel);padding-bottom:8px;margin-bottom:8px}
+    #recommended .rec-search input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#1c1c1c;color:var(--text)}
+    #recommended .rec-links ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:8px 12px}
+    #recommended .rec-item{margin:0;padding:10px 12px;border:1px solid rgba(255,255,255,.08);border-radius:10px;background:rgba(255,255,255,.02);transition:transform .15s ease, background .2s ease, border-color .2s ease}
+    #recommended .rec-item:hover{transform:translateY(-2px);background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.18)}
+    #recommended .rec-item > a{display:inline-block;font-weight:600}
+    #recommended .rec-desc{margin-top:6px}
+
+/* =========================
+   RADIO BROADCAST (prawdziwy, płynny, bez ucinania, bez “pod spodem”)
+   ========================= */
+.ticker{
+  margin-top:14px;border-radius:12px;border:1px solid rgba(255,255,255,.10);
+  background:rgba(0,0,0,.25);overflow:hidden;position:relative;
+  box-shadow:inset 0 0 0 1px rgba(204,0,0,.06);
+}
+.ticker::before{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg, rgba(204,0,0,.10), transparent 40%, transparent 60%, rgba(204,0,0,.10));
+  opacity:.6;pointer-events:none;
+}
+.ticker-head{
+  display:flex;align-items:center;gap:10px;
+  padding:10px 12px;border-bottom:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.02);
+  font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff;text-shadow:var(--glow);
+}
+.ticker-head .dot{
+  width:10px;height:10px;border-radius:999px;background:#b10000;
+  box-shadow:0 0 12px rgba(255,0,0,.45);
+  animation:pulseDot 1.1s ease-in-out infinite;
+}
+.ticker-body{
+  position:relative;
+  padding:10px 0;
+  overflow:hidden;
+}
+.ticker-body::before,
+.ticker-body::after{
+  content:"";
+  position:absolute; top:0; bottom:0;
+  width:64px;
+  z-index:3;
+  pointer-events:none;
+}
+.ticker-body::before{
+  left:0;
+  background:linear-gradient(90deg, rgba(23,23,23,1), rgba(23,23,23,0));
+  opacity:.95;
+}
+.ticker-body::after{
+  right:0;
+  background:linear-gradient(270deg, rgba(23,23,23,1), rgba(23,23,23,0));
+  opacity:.95;
+}
+
+/* TO JEST KLUCZ: track to jeden wiersz, klony obok siebie */
+.ticker-track{
+  --ticker-distance: 1000px;
+  --ticker-duration: 26s;
+  display:flex;              /* <- ważne */
+  flex-wrap:nowrap;          /* <- ważne */
+  white-space:nowrap;        /* <- ważne */
+  align-items:center;
+  gap:28px;
+  will-change:transform;
+  animation: tickerMove var(--ticker-duration) linear infinite;
+}
+
+/* inner też jeden wiersz */
+.ticker-inner{
+  display:inline-flex;
+  flex-wrap:nowrap;
+  white-space:nowrap;
+  gap:28px;
+  align-items:center;
+}
+
+@keyframes tickerMove{
+  0%   { transform: translate3d(0,0,0); }
+  100% { transform: translate3d(calc(-1 * var(--ticker-distance)),0,0); }
+}
+
+.ticker-item{
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  color:#e9e9e9;
+  font-weight:800;
+  text-shadow:0 0 10px rgba(0,0,0,.6);
+  letter-spacing:.02em;
+}
+.ticker-item .sep{opacity:.55;color:var(--tag-fg)}
+
+@media (max-width:560px){
+  .ticker-body::before,.ticker-body::after{width:44px}
+}
+  </style>
 </head>
-<body>
-  <header class="topbar" role="banner">
-    <div class="topbar-inner">
-      <div class="brand">
-        <img src="assets/img/logo.png" alt="DayZ New Beginning — logo" width="280" height="80" />
-        <span class="tag" data-i18n="kicker">VANILLA+ • 1PP • Livonia</span>
-      </div>
-      <nav class="nav" aria-label="Główna nawigacja">
-        <a href="#news">News</a>
-        <a href="#mods" data-i18n="nav.mods">Mody</a>
-        <a href="#how" data-i18n="nav.how">Jak dołączyć</a>
-        <a href="#rules" data-i18n="nav.rules">Regulamin</a>
-        <a href="#gallery" data-i18n="nav.gallery">Galeria</a>
-        <a href="#recommended" data-i18n="nav.recommended">Polecane</a>
-        <a href="#thanks" data-i18n="nav.thanks">Podziękowania</a>
-      </nav>
+
+<body class="preload">
+  <div id="intro" class="intro" role="dialog" aria-modal="true" aria-label="Wchodzisz do świata">
+    <div class="intro-card">
+      <h2>WCHODZISZ DO STREFY ZAKAŻONEJ</h2>
+      <p>Nie ma drugich szans. Zbieraj, uciekaj, zaufaj… albo zgiń.</p>
+      <div class="hint"><span class="blood-dot"></span> Ładowanie świata…</div>
     </div>
-  </header>
-
-  <!-- 🆕 Dodana sekcja NEWS zaraz pod nagłówkiem -->
-  <div class="wrap">
-    <section id="news" class="panel" aria-label="Najnowsze informacje">
-      <h2>Najnowsze informacje</h2>
-      <ul>
-        <li><strong>[💻]</strong> 🚀 Serwer został zaktualizowany do najnowszej wersji.</li>
-        <li><strong>[💻]</strong> 🧟 Wipe Livonii, zmieni sie na dobre </li>
-        <li><strong>[💻]</strong> 🎉 Namalsk Serwer ! </li>
-        <li><strong>[💻]</strong> 🛡️ 🛡️<br><br>
-
-  </li>
-      </ul>
-    </section>
   </div>
 
+  <div class="flicker" aria-hidden="true"></div>
+  <div class="fx" aria-hidden="true"></div>
 
-  <main id="content" class="hero" role="main">
-    <div class="wrap hero-inner">
-      <section aria-label="Wprowadzenie">
-<p class="kicker" data-i18n="kicker">VANILLA+ • 1PP • Livonia</p>
-<h1 data-i18n="hero.title">Z popiołów starego świata wyłaniają się nowi ocaleni.</h1>
-<p class="lede" data-i18n="hero.lede">DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.</p>
-<div class="cta-row">
-  <a class="btn primary" href="https://discord.gg/bPvfNSDDD6" target="_blank" rel="noopener">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#5865F2">
-      <path d="M20.317 4.369A19.791 19.791 0 0 0 16.558 3c-.2.36-.43.846-.588 1.23a18.27 18.27 0 0 0-3.94 0A8.258 8.258 0 0 0 11.441 3a19.736 19.736 0 0 0-3.76 1.37C4.296 7.237 3.71 10.024 3.89 12.762c1.58 1.176 3.11 1.892 4.62 2.36.373-.51.707-1.05.996-1.62c-.55-.21-1.08-.47-1.59-.77c.138-.1.274-.204.407-.31c3.07 1.44 6.39 1.44 9.43 0c.133.108.27.212.407.313c-.51.3-1.04.56-1.59.77c.29.57.62 1.11.996 1.62c1.51-.47 3.04-1.183 4.62-2.36c.31-4.5-.76-7.26-1.77-8.392ZM9.754 12.348c-.9 0-1.63-.83-1.63-1.85s.73-1.85 1.63-1.85s1.64.83 1.63 1.85c0 1.02-.73 1.85-1.63 1.85m4.492 0c-.9 0-1.63-.83-1.63-1.85s.73-1.85 1.63-1.85s1.64.83 1.63 1.85c0 1.02-.73 1.85-1.63 1.85"/>
-    </svg>
-    Dołącz na Discord
-  </a>
-  <a class="btn" href="https://www.youtube.com/@tekzz-1" target="_blank" rel="noopener">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#FF0000">
-      <path d="M23.5 6.2a4.7 4.7 0 0 0-3.3-3.3C18.4 2.3 12 2.3 12 2.3s-6.4 0-8.2.6A4.7 4.7 0 0 0 .5 6.2A49.2 49.2 0 0 0 0 12a49.2 49.2 0 0 0 .5 5.8a4.7 4.7 0 0 0 3.3 3.3c1.8.6 8.2.6 8.2.6s6.4 0 8.2-.6a4.7 4.7 0 0 0 3.3-3.3A49.2 49.2 0 0 0 24 12a49.2 49.2 0 0 0-.5-5.8ZM9.75 15.02V8.98L15.5 12z"/>
-    </svg>
-    Oglądaj na YouTube
-  </a>
-  <a class="btn" href="https://paypal.me/Dayznb?country.x=PL&locale.x=en_US" target="_blank" rel="noopener">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="22" height="22" fill="#003087">
-      <path d="M7.2 20.8h-2l.4-2.6h1.9c2.7 0 4.8-2 5.2-4.6l.7-4.4c.1-.6-.4-1.2-1-1.2H8.2l.3-1.8h5.5c1.7 0 3 .9 2.7 2.8l-.8 5.1c-.4 2.6-2.6 4.6-5.2 4.6H8zM16.1 5.2H9.7l.3-1.8h6.4c1.8 0 3 .9 2.7 2.8l-.1.8c-.5-1.2-1.6-1.8-2.9-1.8Z"/>
-    </svg>
-    Wesprzyj darowizną
-  </a>
-</div>
-</section>
-      <aside class="server-card" aria-label="Informacje o serwerze">
-        <h2 style="margin-top:0" data-i18n="server.title">Serwer</h2>
-        <div class="kv" role="list">
-          <span>🔥</span><span role="listitem"><strong data-i18n="server.name">VANILLA+ | DayZ New Beginning [1PP]</strong></span>
-          <span>💻</span><span role="listitem">IP: <code id="ip">85.190.162.83</code> • Port: <code id="port">11900</code></span>
-          <span>🗺️</span><span role="listitem" data-i18n="server.map">Mapa: Livonia</span>
-          <span>🎮</span><span role="listitem" data-i18n="server.platform">Platforma: PC Only</span>
-        </div>
-        
-<div class="cta-row">
-<button class="btn blink" id="copy-ip" data-i18n="cta.copy" aria-live="polite">
-  <span class="blood" aria-hidden="true">
-    <svg viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 2c3.5 5.2 7 9.2 7 13a7 7 0 1 1-14 0c0-3.8 3.5-7.8 7-13z"/>
-    </svg>
-  </span>
-  🔥Skopiuj IP i port
-</button>
-</div>
-
-      </aside>
-    </div>
-  </main>
-
-  <div class="wrap">
-    <section id="story" class="panel" aria-label="Historia">
-      <h2 data-i18n="story.title">Nasza historia</h2>
-      <p class="sub" data-i18n="story.text">Powstaliśmy z nocnych potyczek, ogniskowych opowieści i chęci zbalansowanej rozgrywki. To świat, w którym Twoja historia ma znaczenie.</p>
-    </section>
-
-    <section id="mods" class="panel" aria-label="Modyfikacje">
-      <h2 data-i18n="mods.title">Aktywne mody</h2>
-      <ul>
-        <li><strong>CodeLock</strong> — <span data-i18n="mods.codelock">zabezpieczenia baz</span></li>
-        <li><strong>MMG Base Storage</strong> — <span data-i18n="mods.mmg">sprytne magazynowanie</span></li>
-        <li><strong>Notes</strong> — <span data-i18n="mods.notes">wiadomości w świecie</span></li>
-        <li><strong>EarlPlug</strong> — <span data-i18n="mods.earl">ciszej klawiszem „N”</span></li>
-        <li><strong>Build Options</strong> — <span data-i18n="mods.build">barykady, namioty, skrzynie</span></li>
-        <li><strong>Basic Map</strong> — <span data-i18n="mods.map">Znajdź mapę, kompas i długopis — ułatwienie dla graczy w postaci mapy</span></li>
-      </ul>
-      <p class="sub" data-i18n="mods.tag">Stawiamy na wymagającą grę — dasz radę?</p>
-    </section>
-
-    <section id="how" class="panel" aria-label="Jak dołączyć">
-      <h2 data-i18n="how.title">Jak dołączyć</h2>
-      <ol>
-        <li data-i18n="how.1">Uruchom DayZ</li>
-        <li data-i18n="how.2">Wybierz „Połącz przez IP”</li>
-        <li data-i18n="how.3">Wpisz IP: <code>85.190.162.83</code></li>
-        <li data-i18n="how.4">Wpisz Port: <code>11900</code></li>
-        <li data-i18n="how.5">Poczekaj na pobranie modów</li>
-      </ol>
-      <figure style="margin-top:12px">
-        <img src="assets/img/launcher-howto.png" alt="Zrzut ekranu: łączenie przez oryginalny launcher DayZ" loading="lazy" width="1280" height="720" />
-        <figcaption class="sub" data-i18n="how.caption">Przykład połączenia z poziomu launchera</figcaption>
-      </figure>
-    
-<section id="rules" class="panel" aria-label="Regulamin New Beginning">
-  <h2 data-i18n="rules.title">Regulamin DAYZ</h2>
-
-  <div class="azyl-info">
-    <p>
-      Dostałeś bana? Napyskowałeś adminowi i wyleciałeś? Wpadłeś w niełaskę bądź zostałeś niesłusznie zbanowany i nikt nie chce Cię na serwerze?  
-      Właśnie po to jest nasz <strong>AZYL New Beginning</strong> — miejsce dla każdego, komu przydarzyła się TZW. "wpadka".
-    </p>
-
-    <p>
-       🩸U nas Admini nie trzymają urazy — nie bronimy pyskówek, lubimy ostrą gadkę.<br>
-       🩸Nieważne, czy kłóciłeś się z adminem, graczem czy po prostu ktoś podjebał lub trafiłeś źle.<br>
-       🩸Pyskowanie mile widziane — potrafimy odgryźć się słowem bądź kulką, lub widłami: jedno pchnięcie, trzy dziury.<br>
-       🩸Jesteśmy bezkompromisowi jeśli chodzi o zabawę — tolerujemy sarkazm, cynizm i twarde żarty, czarny humor itp.<br>
-       🩸Bądź kim chcesz,możesz być zabawny, wulgarny czy prowokujący. Ważne, żebyśmy wszyscy dobrze się bawili to tylko gra.<br>
-       🩸Konsekwencja? U nas to głównie śmierć na polu bitwy,pyskowanie czy zwyzywanie może skończyć się po prostu nowym respem, ale grasz dalej.
-    </p>
-
-    <p>
-      <strong>W skrócie:</strong> u nas możesz mówić ostro, drzeć się na Wszystko, graczy, pyskować, być kim chcesz mamy to w dupie, ważne że jesteś<br>
-      ⚠️ <strong>Uwaga!</strong> Za cheatowanie PERMAMENTNY BAN!!!
-    </p>
-
-    <ul>
-      <li>⚠️ Strona zawiera treści o charakterze rozrywkowym, mogące obejmować wulgaryzmy, sarkazm i czarny humor.</li>
-      <li>Treści są przeznaczone wyłącznie dla osób pełnoletnich (18+).</li>
-      <li>Publikowane materiały mają charakter satyryczny i nie mają na celu obrażania ani znieważania jakiejkolwiek osoby czy grupy społecznej.</li>
-    </ul>
-  </div>
-
-  <p class="sub">Grasz = akceptujesz regulamin. Zastrzegamy prawo do zmian regulaminu w celu utrzymania balansu i jakości gry.</p>
-</section>
-
-    <section id="gallery" class="panel" aria-label="Galeria">
-      <h2 data-i18n="gallery.title">Galeria serwera</h2>
-      <div class="gallery" id="galleryGrid">
-        <a href="assets/img/shot1.jpg" class="gl"><img src="assets/img/shot1_sm.jpg" alt="Baza w lesie" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot2.jpg" class="gl"><img src="assets/img/shot2_sm.jpg" alt="Miasto o świcie" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot3.jpg" class="gl"><img src="assets/img/shot3_sm.jpg" alt="Wyprawa przez Livonię" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot4.jpg" class="gl"><img src="assets/img/shot4_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot5.jpg" class="gl"><img src="assets/img/shot5_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot6.jpg" class="gl"><img src="assets/img/shot6_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot7.jpg" class="gl"><img src="assets/img/shot7_sm.jpg" alt="Miasto o świcie" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot8.jpg" class="gl"><img src="assets/img/shot8_sm.jpg" alt="Wyprawa przez Livonię" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot9.jpg" class="gl"><img src="assets/img/shot9_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot10.jpg" class="gl"><img src="assets/img/shot10_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot11.jpg" class="gl"><img src="assets/img/shot11_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
-        <a href="assets/img/shot12.jpg" class="gl"><img src="assets/img/shot12_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
-      </div>
-      <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
-        <img alt="Podgląd zdjęcia" />
-      </div>
-    </section>
-
-    <!-- ===== Specjalne podziękowania ===== -->
-    <section id="thanks" class="panel" aria-label="Specjalne podziękowania">
-      <h2 data-i18n="thanks.title">Specjalne podziękowania</h2>
-      <div class="thanks-grid">
-        <div>
-          <p class="sub">„Dziękuje Wam – to dzięki Wam ta społeczność istnieje. Gdyby nie Wasze wsparcie, zaangażowanie i obecność, nie byłoby nas tutaj. Razem tworzymy coś wyjątkowego.”
-            ❤️</p>
-          <div class="placeholder">
-            <p><strong>🩸</strong> „Szczególnie <span class="blood-name">ROCKET</span>, <span class="blood-name">αδεσποτος1312</span> oraz <span class="blood-name">GEO SCULLY</span> — dzięki za pomoc przy starcie serwera. Bez Was to nie miałoby sensu.🩸”</p>
+  <div id="pageRoot">
+    <header class="topbar" role="banner">
+      <div class="topbar-inner">
+        <div class="brand">
+          <img src="assets/img/logo.png" alt="DayZ New Beginning — logo" width="280" height="80" />
+          <div class="brand-tags">
+            <span class="tag">VANILLA+ • 1PP • Livonia</span>
+            <span class="tag">NAMALSK • 1PP</span>
           </div>
         </div>
-        <figure class="thanks-thumb">
-          <a class="gl" href="assets/img/thx.jpg" aria-label="Powiększ zdjęcie z ekipy">
-            <img src="assets/img/thx_sm.jpg" alt="Miniatura — ekipa serwera" loading="lazy" width="640" height="360"/>
-          </a>
-          <figcaption class="sub">Już niedługo...</figcaption>
-        </figure>
+        <nav class="nav" aria-label="Główna nawigacja">
+          <a href="#news">News</a>
+          <a href="#mods">Mody</a>
+          <a href="#how">Jak dołączyć</a>
+          <a href="#rules">Regulamin</a>
+          <a href="#gallery">Galeria</a>
+          <a href="#recommended">Polecane</a>
+          <a href="#thanks">Podziękowania</a>
+        </nav>
       </div>
-    </section>
+    </header>
 
-    <section id="recommended" class="panel" aria-label="Polecane serwery">
-      <h2 data-i18n="rec.title">Polecane serwery — wzajemne wsparcie</h2>
-      <div class="rec-links">
-        <div class="rec-search">
-          <input id="recFilter" type="search" placeholder="Szukaj serwera… (np. 'vanilla', 'discord', 'PL')" aria-label="Filtruj serwery">
-        </div>
-        <ul id="recList">
-          <li class="rec-item" data-text="Serwer partnerski 1 discord survival rp livonia">
-            <a href="https://discord.gg/wmDF4GaMgY" target="_blank" rel="noopener">HollyRex</a>
-            <div class="rec-desc">➡ Discord</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
-            <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" rel="noopener">Long Road To Salvation</a>
-            <div class="rec-desc">➡ Discord</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
-            <a href="https://discord.gg/7nuyDvctgg" target="_blank" rel="noopener">The Devil Cristal</a>
-            <div class="rec-desc">➡ Dzięki LadyEvil </div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
-            <a href="https://discord.gg/B7JCf2dEgB" target="_blank" rel="noopener">DAYZ Editor</a>
-            <div class="rec-desc">➡ DayZ Editor</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
-            <a href="https://discord.gg/MyStory" target="_blank" rel="noopener">My story</a>
-            <div class="rec-desc">➡ Discord</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
-            <a href="https://discord.gg/spaggie-s-servers-801491603310772255" target="_blank" rel="noopener">Spaggie</a>
-            <div class="rec-desc">➡ Discord</div>
-              </li>
-          <li class="rec-item" data-text="Serwer partnerski 7 vanilla plus spolecznosc pl">
-            <a href="https://discord.com/dayz" target="_blank" rel="noopener">DAYZ</a>
-            <div class="rec-desc">➡ Official</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 8 vanilla plus spolecznosc pl">
-            <a href="https://discord.com/7JmHtMxQhb" target="_blank" rel="noopener">DAYZ.PL</a>
-            <div class="rec-desc">➡ Serwis społeczności</div>
-          </li>
-          <li class="rec-item" data-text="Serwer partnerski 9 vanilla plus spolecznosc pl">
-            <a href="https://discord.gg/MWPU5wPYM6" target="_blank" rel="noopener">Ɽł₵Ⱨ₥Ø₦Đ</a>
-            <div class="rec-desc">➡ help & Mods</div>
-          </li>
-           <li class="rec-item" data-text="Serwer partnerski 10 discord survival namalsk">
-            <a href="https://discord.gg/pZqXQK9ZUE" target="_blank" rel="noopener">NAMALSK</a>
-            <div class="rec-desc">➡ Sumrak</div>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="panel" aria-label="Cytat">
-      <blockquote cite="https://www.dayz.com/" class="sub" style="border-left:3px solid var(--accent);padding-left:12px">
-        <p data-i18n="quote">„W Livonii nie ma drugich szans… Przetrwają tylko silni, sprytni i szczęśliwi. Wybierz mądrze swoją ścieżkę.”</p>
-      </blockquote>
-    </section>
-  </div>
-
-  <footer role="contentinfo">
     <div class="wrap">
-      <p>© <span id="year"></span> DayZ New Beginning — <strong>Tekzz</strong></p>
-      <p class="sub" data-i18n="footer.made">Ta strona powstała dla społeczności DayZ — aby grać, tworzyć i przetrwać razem. 🧟</p>
-    </div>
-  </footer>
+      <section id="news" class="panel reveal" aria-label="Najnowsze informacje">
+        <h2>Najnowsze informacje</h2>
+        <ul>
+          <li><strong>[💻]</strong> 🚀 Serwer został zaktualizowany do najnowszej wersji.</li>
+          <li><strong>[💻]</strong> 🧟 Wipe Livonii, zmieni sie na dobre</li>
+          <li><strong>[💻]</strong> 🎉 Namalsk Serwer !</li>
+          <li><strong>[💻]</strong> 🛡️ 🛡️</li>
+        </ul>
 
-  <div id="copyOverlay" class="overlay" role="dialog" aria-modal="true">
-    <img src="assets/img/fog.gif" alt="Mgła" />
-    <p>✅ Skopiowano IP i port!</p>
+        <!-- RADIO BROADCAST: wersja prawdziwa, zawsze pokaże cały tekst -->
+        <div class="ticker" aria-label="Radio broadcast">
+          <div class="ticker-head"><span class="dot"></span> RADIO BROADCAST</div>
+          <div class="ticker-body">
+            <div class="ticker-track" id="tickerTrack">
+              <div class="ticker-inner" id="tickerInner">
+                <span class="ticker-item">Ładowanie komunikatów…</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <main id="content" class="hero" role="main">
+      <div class="wrap hero-inner">
+        <section aria-label="Wprowadzenie" class="reveal">
+          <p class="kicker">VANILLA+ • 1PP • Livonia</p>
+          <h1>Z popiołów starego świata wyłaniają się nowi ocaleni.</h1>
+          <p class="lede">DayZ New Beginning to surowe doświadczenie przetrwania. Zbieraj, buduj, twórz historie i uważaj komu ufasz.</p>
+
+          <div class="cta-row">
+            <a class="btn primary" href="https://discord.gg/bPvfNSDDD6" target="_blank" rel="noopener">Dołącz na Discord</a>
+            <a class="btn" href="https://www.youtube.com/@tekzz-1" target="_blank" rel="noopener">Oglądaj na YouTube</a>
+            <a class="btn" href="https://paypal.me/Dayznb?country.x=PL&locale.x=en_US" target="_blank" rel="noopener">Wesprzyj darowizną</a>
+          </div>
+        </section>
+
+        <aside class="server-card reveal" aria-label="Informacje o serwerze">
+          <h2 style="margin-top:0">Serwer</h2>
+          <div class="server-tabs" id="serverTabs" aria-label="Wybór serwera"></div>
+
+          <div class="kv" role="list">
+            <span>🔥</span><span role="listitem"><strong id="serverName">VANILLA+ | DayZ New Beginning [1PP]</strong></span>
+            <span>💻</span><span role="listitem">IP: <code id="ip">85.190.162.83</code> • Port: <code id="port">11900</code></span>
+            <span>🗺️</span><span role="listitem" id="serverMap">Mapa: Livonia</span>
+            <span>🎮</span><span role="listitem" id="serverPlatform">Platforma: PC Only</span>
+          </div>
+
+          <div class="cta-row">
+            <button class="btn blink" id="copy-ip" aria-live="polite">
+              <span class="blood" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2c3.5 5.2 7 9.2 7 13a7 7 0 1 1-14 0c0-3.8 3.5-7.8 7-13z"/>
+                </svg>
+              </span>
+              🔥Skopiuj IP i port
+            </button>
+          </div>
+        </aside>
+      </div>
+    </main>
+
+    <div class="wrap">
+      <section id="story" class="panel reveal" aria-label="Historia">
+        <h2>Nasza historia</h2>
+        <p class="sub">Powstaliśmy z nocnych potyczek, ogniskowych opowieści i chęci zbalansowanej rozgrywki. To świat, w którym Twoja historia ma znaczenie.</p>
+      </section>
+
+      <section id="mods" class="panel reveal" aria-label="Modyfikacje">
+        <h2>Aktywne mody</h2>
+        <ul>
+          <li><strong>CodeLock</strong> — zabezpieczenia baz</li>
+          <li><strong>MMG Base Storage</strong> — sprytne magazynowanie</li>
+          <li><strong>Notes</strong> — wiadomości w świecie</li>
+          <li><strong>EarlPlug</strong> — ciszej klawiszem „N”</li>
+          <li><strong>Build Options</strong> — barykady, namioty, skrzynie</li>
+          <li><strong>Basic Map</strong> — Znajdź mapę, kompas i długopis — ułatwienie dla graczy w postaci mapy</li>
+        </ul>
+        <p class="sub">Stawiamy na wymagającą grę — dasz radę?</p>
+      </section>
+
+      <section id="how" class="panel reveal" aria-label="Jak dołączyć">
+        <h2>Jak dołączyć</h2>
+        <ol>
+          <li>Uruchom DayZ</li>
+          <li>Wybierz „Połącz przez IP”</li>
+          <li>Wpisz IP: <code>85.190.162.83</code></li>
+          <li>Wpisz Port: <code>11900</code></li>
+          <li>Poczekaj na pobranie modów</li>
+        </ol>
+        <figure style="margin-top:12px">
+          <img src="assets/img/launcher-howto.png" alt="Zrzut ekranu: łączenie przez oryginalny launcher DayZ" loading="lazy" width="1280" height="720" />
+          <figcaption class="sub">Przykład połączenia z poziomu launchera</figcaption>
+        </figure>
+      </section>
+
+      <section id="rules" class="panel reveal" aria-label="Regulamin New Beginning">
+        <h2>Regulamin DAYZ</h2>
+
+        <div class="azyl-info">
+          <p>
+            Dostałeś bana? Napyskowałeś adminowi i wyleciałeś? Wpadłeś w niełaskę bądź zostałeś niesłusznie zbanowany i nikt nie chce Cię na serwerze?
+            Właśnie po to jest nasz <strong>AZYL New Beginning</strong> — miejsce dla każdego, komu przydarzyła się TZW. "wpadka".
+          </p>
+
+          <p>
+            🩸U nas Admini nie trzymają urazy — nie bronimy pyskówek, lubimy ostrą gadkę.<br>
+            🩸Nieważne, czy kłóciłeś się z adminem, graczem czy po prostu ktoś podjebał lub trafiłeś źle.<br>
+            🩸Pyskowanie mile widziane — potrafimy odgryźć się słowem bądź kulką, lub widłami: jedno pchnięcie, trzy dziury.<br>
+            🩸Jesteśmy bezkompromisowi jeśli chodzi o zabawę — tolerujemy sarkazm, cynizm i twarde żarty, czarny humor itp.<br>
+            🩸Bądź kim chcesz,możesz być zabawny, wulgarny czy prowokujący. Ważne, żebyśmy wszyscy dobrze się bawili to tylko gra.<br>
+            🩸Konsekwencja? U nas to głównie śmierć na polu bitwy,pyskowanie czy zwyzywanie może skończyć się po prostu nowym respem, ale grasz dalej.
+          </p>
+
+          <p>
+            <strong>W skrócie:</strong> u nas możesz mówić ostro, drzeć się na Wszystko, graczy, pyskować, być kim chcesz mamy to w dupie, ważne że jesteś<br>
+            ⚠️ <strong>Uwaga!</strong> Za cheatowanie PERMAMENTNY BAN!!!
+          </p>
+
+          <ul>
+            <li>⚠️ Strona zawiera treści o charakterze rozrywkowym, mogące obejmować wulgaryzmy, sarkazm i czarny humor.</li>
+            <li>Treści są przeznaczone wyłącznie dla osób pełnoletnich (18+).</li>
+            <li>Publikowane materiały mają charakter satyryczny i nie mają na celu obrażania ani znieważania jakiejkolwiek osoby czy grupy społecznej.</li>
+          </ul>
+        </div>
+
+        <p class="sub">Grasz = akceptujesz regulamin. Zastrzegamy prawo do zmian regulaminu w celu utrzymania balansu i jakości gry.</p>
+      </section>
+
+      <section id="gallery" class="panel reveal" aria-label="Galeria">
+        <h2>Galeria serwera</h2>
+        <div class="gallery" id="galleryGrid">
+          <a href="assets/img/shot1.jpg" class="gl"><img src="assets/img/shot1_sm.jpg" alt="Baza w lesie" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot2.jpg" class="gl"><img src="assets/img/shot2_sm.jpg" alt="Miasto o świcie" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot3.jpg" class="gl"><img src="assets/img/shot3_sm.jpg" alt="Wyprawa przez Livonię" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot4.jpg" class="gl"><img src="assets/img/shot4_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot5.jpg" class="gl"><img src="assets/img/shot5_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot6.jpg" class="gl"><img src="assets/img/shot6_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot7.jpg" class="gl"><img src="assets/img/shot7_sm.jpg" alt="Miasto o świcie" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot8.jpg" class="gl"><img src="assets/img/shot8_sm.jpg" alt="Wyprawa przez Livonię" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot9.jpg" class="gl"><img src="assets/img/shot9_sm.jpg" alt="Starcie przy bazie" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot10.jpg" class="gl"><img src="assets/img/shot10_sm.jpg" alt="Ognisko nocą" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot11.jpg" class="gl"><img src="assets/img/shot11_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
+          <a href="assets/img/shot12.jpg" class="gl"><img src="assets/img/shot12_sm.jpg" alt="Polowanie w polu" loading="lazy" width="480" height="320"></a>
+        </div>
+        <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Podgląd zdjęcia">
+          <img alt="Podgląd zdjęcia" />
+        </div>
+      </section>
+
+      <!-- PODZIĘKOWANIA 1:1 -->
+      <section id="thanks" class="panel reveal" aria-label="Specjalne podziękowania">
+        <h2>Specjalne podziękowania</h2>
+        <div class="thanks-grid">
+          <div>
+            <p class="sub">„Dziękuje Wam – to dzięki Wam ta społeczność istnieje. Gdyby nie Wasze wsparcie, zaangażowanie i obecność, nie byłoby nas tutaj. Razem tworzymy coś wyjątkowego.”
+              ❤️</p>
+            <div class="placeholder">
+              <p><strong>🩸</strong> „Szczególnie <span class="blood-name">ROCKET</span>, <span class="blood-name">αδεσποτος1312</span> oraz <span class="blood-name">GEO SCULLY</span> — dzięki za pomoc przy starcie serwera. Bez Was to nie miałoby sensu.🩸”</p>
+            </div>
+          </div>
+          <figure class="thanks-thumb">
+            <a class="gl" href="assets/img/thx.jpg" aria-label="Powiększ zdjęcie z ekipy">
+              <img src="assets/img/thx_sm.jpg" alt="Miniatura — ekipa serwera" loading="lazy" width="640" height="360"/>
+            </a>
+            <figcaption class="sub">Już niedługo...</figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="recommended" class="panel reveal" aria-label="Polecane serwery">
+        <h2>Polecane serwery — wzajemne wsparcie</h2>
+        <div class="rec-links">
+          <div class="rec-search">
+            <input id="recFilter" type="search" placeholder="Szukaj serwera… (np. 'vanilla', 'discord', 'PL')" aria-label="Filtruj serwery">
+          </div>
+          <ul id="recList">
+            <li class="rec-item" data-text="Serwer partnerski 1 discord survival rp livonia">
+              <a href="https://discord.gg/wmDF4GaMgY" target="_blank" rel="noopener">HollyRex</a>
+              <div class="rec-desc">➡ Discord</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 2 pvp hardcore chernarus">
+              <a href="https://discord.gg/dtr7RNR7DJ" target="_blank" rel="noopener">Long Road To Salvation</a>
+              <div class="rec-desc">➡ Discord</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 3 vanilla plus spolecznosc pl">
+              <a href="https://discord.gg/7nuyDvctgg" target="_blank" rel="noopener">The Devil Cristal</a>
+              <div class="rec-desc">➡ Dzięki LadyEvil </div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 4 discord survival rp livonia">
+              <a href="https://discord.gg/B7JCf2dEgB" target="_blank" rel="noopener">DAYZ Editor</a>
+              <div class="rec-desc">➡ DayZ Editor</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 5 pvp hardcore chernarus">
+              <a href="https://discord.gg/MyStory" target="_blank" rel="noopener">My story</a>
+              <div class="rec-desc">➡ Discord</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 6 vanilla plus spolecznosc pl">
+              <a href="https://discord.gg/spaggie-s-servers-801491603310772255" target="_blank" rel="noopener">Spaggie</a>
+              <div class="rec-desc">➡ Discord</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 7 vanilla plus spolecznosc pl">
+              <a href="https://discord.com/dayz" target="_blank" rel="noopener">DAYZ</a>
+              <div class="rec-desc">➡ Official</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 8 vanilla plus spolecznosc pl">
+              <a href="https://discord.com/7JmHtMxQhb" target="_blank" rel="noopener">DAYZ.PL</a>
+              <div class="rec-desc">➡ Serwis społeczności</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 9 vanilla plus spolecznosc pl">
+              <a href="https://discord.gg/MWPU5wPYM6" target="_blank" rel="noopener">Ɽł₵Ⱨ₥Ø₦Đ</a>
+              <div class="rec-desc">➡ help & Mods</div>
+            </li>
+            <li class="rec-item" data-text="Serwer partnerski 10 discord survival namalsk">
+              <a href="https://discord.gg/pZqXQK9ZUE" target="_blank" rel="noopener">NAMALSK</a>
+              <div class="rec-desc">➡ Sumrak</div>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel reveal" aria-label="Cytat">
+        <blockquote class="sub" style="border-left:3px solid var(--accent);padding-left:12px">
+          <p>„W Livonii nie ma drugich szans… Przetrwają tylko silni, sprytni i szczęśliwi. Wybierz mądrze swoją ścieżkę.”</p>
+        </blockquote>
+      </section>
+    </div>
+
+    <footer role="contentinfo">
+      <div class="wrap">
+        <p>© <span id="year"></span> DayZ New Beginning — <strong>Tekzz</strong></p>
+        <p class="sub">Ta strona powstała dla społeczności DayZ — aby grać, tworzyć i przetrwać razem. 🧟</p>
+      </div>
+    </footer>
+
+    <div id="copyOverlay" class="overlay" role="dialog" aria-modal="true">
+      <img src="assets/img/fog.gif" alt="Mgła" />
+      <p>✅ Skopiowano IP i port!</p>
+    </div>
   </div>
 
   <script>
-    // Copy IP (robust with fallback + overlay)
-    const copyBtn = document.getElementById('copy-ip');
+    /* === OPCJA 2: TYLKO WŁASNE TEKSTY TICKERA (EDYTUJ TU) === */
+    const RADIO_TICKER = [
+      "RADIO: ...ssss... odbiór... ...sss...",
+      "RADIO: Jeśli słyszysz kroki — to nie wiatr.",
+      "RADIO: Namalsk. Śnieg nie tłumi krzyków.",
+      "RADIO: Zgaś światło. Oni widzą.",
+      "RADIO: Zostaw otwarte drzwi. To pułapka.",
+      "RADIO: Patrol na północy — omijaj drogę.",
+      "RADIO: Krew na śniegu. Nie pytaj czyja.",
+      "RADIO: Restart serwera — gdy cisza uderzy, uciekaj."
+    ];
 
+    /* Serwery (zakładki) */
+    const SERVERS = [
+      { label:"Serwer 1", name:"VANILLA+ | DayZ New Beginning [1PP]", ip:"85.190.162.83", port:"11900", map:"Livonia", platform:"PC Only" },
+      { label:"Serwer 2", name:"NAMALSK | DayZ New Beginning [1PP]", ip:"0.0.0.0", port:"2302", map:"Namalsk", platform:"PC Only" },
+      { label:"Serwer 3", name:"Serwer 3 — wklej nazwę", ip:"0.0.0.0", port:"2302", map:"Chernarus", platform:"PC Only" },
+    ];
+    let activeServerIndex = 0;
+
+    function renderServerTabs() {
+      const tabs = document.getElementById("serverTabs");
+      if (!tabs) return;
+      tabs.innerHTML = "";
+      SERVERS.forEach((srv, idx) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "server-tab" + (idx === activeServerIndex ? " active" : "");
+        b.textContent = srv.label || `Serwer ${idx + 1}`;
+        b.addEventListener("click", () => {
+          activeServerIndex = idx;
+          applyServer(activeServerIndex);
+          renderServerTabs();
+        });
+        tabs.appendChild(b);
+      });
+    }
+
+    function applyServer(i) {
+      const srv = SERVERS[i];
+      if (!srv) return;
+      const nameEl = document.getElementById("serverName");
+      const ipEl = document.getElementById("ip");
+      const portEl = document.getElementById("port");
+      const mapEl = document.getElementById("serverMap");
+      const platEl = document.getElementById("serverPlatform");
+      if (nameEl) nameEl.textContent = srv.name || "";
+      if (ipEl) ipEl.textContent = srv.ip || "";
+      if (portEl) portEl.textContent = srv.port || "";
+      if (mapEl) mapEl.textContent = "Mapa: " + (srv.map || "");
+      if (platEl) platEl.textContent = "Platforma: " + (srv.platform || "");
+    }
+
+    function startIntro(){
+      requestAnimationFrame(() => {
+        document.body.classList.remove("preload");
+        document.body.classList.add("loaded");
+      });
+      const intro = document.getElementById("intro");
+      if (intro){
+        setTimeout(() => intro.classList.add("hide"), 1100);
+        setTimeout(() => { try{ intro.remove(); }catch(e){} }, 2300);
+      }
+    }
+
+    function initReveal(){
+      const items = document.querySelectorAll(".reveal");
+      if (!("IntersectionObserver" in window) || items.length === 0){
+        items.forEach(el => el.classList.add("in-view"));
+        return;
+      }
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting){
+            e.target.classList.add("in-view");
+            io.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: "0px 0px -10% 0px" });
+
+      items.forEach(el => io.observe(el));
+    }
+
+    function escapeHtml(str){
+      return String(str)
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+
+    function makeTickerSpan(txt){
+      const s = document.createElement("span");
+      s.className = "ticker-item";
+      s.innerHTML = `<span class="sep">⟦</span> ${escapeHtml(txt)} <span class="sep">⟧</span>`;
+      return s;
+    }
+
+    /* === Prawdziwy ticker: mierzy szerokość i leci zawsze do końca (bez ucinania) === */
+    function initRadioTicker(){
+      const track = document.getElementById("tickerTrack");
+      const inner = document.getElementById("tickerInner");
+      if (!track || !inner) return;
+
+      // usuń stare klony (gdyby init leciał ponownie)
+      track.querySelectorAll(".ticker-inner:not(#tickerInner)").forEach(n => n.remove());
+
+      const items = (Array.isArray(RADIO_TICKER) && RADIO_TICKER.length)
+        ? RADIO_TICKER
+        : ["RADIO: brak sygnału…"];
+
+      // budujemy jedną kopię
+      inner.innerHTML = "";
+      items.forEach(t => inner.appendChild(makeTickerSpan(t)));
+
+      // separator (ładny jak broadcast)
+      const sep = document.createElement("span");
+      sep.className = "ticker-item";
+      sep.innerHTML = `<span class="sep">◆</span>`;
+      inner.appendChild(sep);
+
+      // druga kopia (dla perfekcyjnie płynnej pętli)
+      const clone = inner.cloneNode(true);
+      clone.removeAttribute("id");
+      track.appendChild(clone);
+
+      // ustaw dystans i czas na podstawie szerokości treści
+      requestAnimationFrame(() => {
+        const total = track.scrollWidth;           // ~ 2x szerokość
+        const one = Math.max(1, Math.floor(total / 2));
+        track.style.setProperty("--ticker-distance", one + "px");
+
+        // prędkość jak "prawdziwe radio" (px/s) — zmień jak chcesz:
+        const pxPerSec = 80; // wolniej: 60, szybciej: 110
+        const duration = Math.max(10, one / pxPerSec);
+        track.style.setProperty("--ticker-duration", duration + "s");
+      });
+    }
+
+    // przelicz ticker na resize (ważne na mobile / zmiana okna)
+    let resizeTimer = null;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(initRadioTicker, 150);
+    });
+
+    /* Copy IP */
+    const copyBtn = document.getElementById('copy-ip');
     async function copyToClipboard(text){
       if (navigator.clipboard && window.isSecureContext){
         try { await navigator.clipboard.writeText(text); return true; } catch(e){}
@@ -524,10 +756,10 @@
       let ok=false; try { ok=document.execCommand('copy'); } catch(e){ ok=false; }
       document.body.removeChild(ta); return ok;
     }
-
     if (copyBtn){
       copyBtn.addEventListener('click', async ()=>{
-        const text = '85.190.162.83:11900';
+        const srv = SERVERS[activeServerIndex] || {};
+        const text = `${srv.ip || ''}:${srv.port || ''}`;
         const copyOverlay = document.getElementById('copyOverlay');
 
         const ok = await copyToClipboard(text);
@@ -542,25 +774,30 @@
         }
       });
     }
-
-    // Allow closing overlay on click (if present)
     document.addEventListener('click', (e)=>{
       const ov = document.getElementById('copyOverlay');
       if (ov && e.target === ov){ ov.classList.remove('show'); }
     });
 
-    // Gallery lightbox (keyboard friendly)
+    /* Lightbox */
     const lb = document.getElementById('lightbox');
-    const lbImg = lb.querySelector('img');
+    const lbImg = lb ? lb.querySelector('img') : null;
     document.querySelectorAll('.gallery a.gl, #thanks a.gl').forEach(a=>{
-      a.addEventListener('click', e=>{ e.preventDefault(); lbImg.src=a.href; lb.classList.add('open'); lb.tabIndex=0; lb.focus(); })
+      a.addEventListener('click', e=>{
+        e.preventDefault();
+        if(!lb || !lbImg) return;
+        lbImg.src = a.href;
+        lb.classList.add('open');
+        lb.tabIndex = 0;
+        lb.focus();
+      });
     });
     if (lb){
       lb.addEventListener('click', ()=> lb.classList.remove('open'));
       lb.addEventListener('keydown', e=>{ if(e.key==='Escape') lb.classList.remove('open') })
     }
 
-    // Recommended filter
+    /* Recommended filter */
     const recFilter = document.getElementById('recFilter');
     const recList = document.getElementById('recList');
     if (recFilter && recList){
@@ -573,8 +810,15 @@
       });
     }
 
-    // Year
+    /* Year */
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    /* Init */
+    renderServerTabs();
+    applyServer(activeServerIndex);
+    initReveal();
+    initRadioTicker();
+    window.addEventListener("load", startIntro, { once:true });
   </script>
 </body>
 </html>
