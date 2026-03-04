@@ -317,7 +317,106 @@
 @media (max-width:560px){
   .ticker-body::before,.ticker-body::after{width:44px}
 }
-  </style>
+  
+/* =========================
+   MOBILE PRO (hamburger + better scaling)
+   ========================= */
+:root{ --header-h: 64px; }
+
+/* keep sticky header from covering anchor targets */
+html{ scroll-padding-top: calc(var(--header-h) + 16px); }
+
+.nav-toggle{
+  display:none;
+  width:44px;height:44px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.03);
+  color:#fff;
+  align-items:center;justify-content:center;
+  box-shadow: var(--shadow);
+}
+.nav-toggle svg{width:22px;height:22px;display:block}
+
+.mobile-nav{
+  position:fixed; inset:0;
+  z-index:2000;
+  pointer-events:none;
+  opacity:0;
+  transition: opacity .25s ease;
+}
+.mobile-nav .backdrop{
+  position:absolute; inset:0;
+  background:rgba(0,0,0,.72);
+  backdrop-filter: blur(4px);
+}
+.mobile-nav .drawer{
+  position:absolute; top:0; right:0;
+  width:min(360px, 88vw);
+  height:100%;
+  background:rgba(14,14,14,.96);
+  border-left:1px solid rgba(255,255,255,.10);
+  box-shadow: -18px 0 60px rgba(0,0,0,.65);
+  transform: translateX(12px);
+  transition: transform .25s ease;
+  display:flex; flex-direction:column;
+}
+.mobile-nav .drawer-head{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 14px 10px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.mobile-nav .drawer-head strong{letter-spacing:.08em;text-transform:uppercase}
+.mobile-nav .drawer a{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 14px;
+  border-bottom:1px solid rgba(255,255,255,.07);
+  color:var(--text);
+  font-weight:800;
+}
+.mobile-nav .drawer a span{opacity:.85;font-weight:700;color:var(--muted)}
+.mobile-nav .drawer .drawer-foot{
+  margin-top:auto;
+  padding:14px;
+  display:grid;
+  gap:10px;
+}
+.mobile-nav .drawer .drawer-foot a.btn{
+  width:100%;
+  justify-content:center;
+}
+
+/* open state */
+body.nav-open .mobile-nav{opacity:1;pointer-events:auto}
+body.nav-open .mobile-nav .drawer{transform: translateX(0)}
+body.nav-open{overflow:hidden}
+
+@media (max-width: 980px){
+  .topbar-inner{padding:10px 16px}
+  .nav{display:none}              /* hide desktop nav */
+  .nav-toggle{display:inline-flex}
+  .brand img{width:140px}
+}
+
+@media (max-width: 900px){
+  .hero-inner{grid-template-columns:1fr; padding:42px 16px; gap:18px}
+  .wrap{padding:16px}
+  h1{font-size:clamp(1.55rem, 6.2vw, 2.1rem)}
+  h2{font-size:1.35rem}
+  .cta-row{flex-direction:column;align-items:stretch}
+  .btn{width:100%;justify-content:center}
+  .kv{grid-template-columns:22px 1fr}
+  .server-card{padding:16px}
+  .panel{padding:18px}
+}
+
+@media (max-width: 560px){
+  .gallery{grid-template-columns:1fr}
+  .gallery img{height:150px}
+  .ticker-item{font-size:.92rem}
+}
+
+</style>
 </head>
 
 <body class="preload">
@@ -342,6 +441,7 @@
             <span class="tag">NAMALSK • 1PP</span>
           </div>
         </div>
+        <button class="nav-toggle" id="navToggle" aria-label="Otwórz menu" aria-expanded="false" aria-controls="mobileNav"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
         <nav class="nav" aria-label="Główna nawigacja">
           <a href="#news">News</a>
           <a href="#mods">Mody</a>
@@ -353,6 +453,32 @@
         </nav>
       </div>
     </header>
+
+    <div class="mobile-nav" id="mobileNav" role="dialog" aria-modal="true" aria-label="Menu">
+      <div class="backdrop" id="navBackdrop" aria-hidden="true"></div>
+      <div class="drawer" role="document">
+        <div class="drawer-head">
+          <strong>Menu</strong>
+          <button class="nav-toggle" id="navClose" aria-label="Zamknij menu" style="display:inline-flex">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <path d="M6 6l12 12M18 6L6 18"/></svg>
+          </button>
+        </div>
+        <a href="#news" class="mnav-link">News <span>›</span></a>
+        <a href="#mods" class="mnav-link">Mody <span>›</span></a>
+        <a href="#how" class="mnav-link">Jak dołączyć <span>›</span></a>
+        <a href="#rules" class="mnav-link">Regulamin <span>›</span></a>
+        <a href="#gallery" class="mnav-link">Galeria <span>›</span></a>
+        <a href="#recommended" class="mnav-link">Polecane <span>›</span></a>
+        <a href="#thanks" class="mnav-link">Podziękowania <span>›</span></a>
+
+        <div class="drawer-foot">
+          <a class="btn primary" href="https://discord.gg/bPvfNSDDD6" target="_blank" rel="noopener">Dołącz na Discord</a>
+          <a class="btn" href="https://www.youtube.com/@tekzz-1" target="_blank" rel="noopener">Oglądaj na YouTube</a>
+        </div>
+      </div>
+    </div>
+
 
     <div class="wrap">
       <section id="news" class="panel reveal" aria-label="Najnowsze informacje">
@@ -821,6 +947,42 @@
     initReveal();
     initRadioTicker();
     window.addEventListener("load", startIntro, { once:true });
+
+    /* Mobile menu (hamburger) */
+    (function(){
+      const toggle = document.getElementById('navToggle');
+      const closeBtn = document.getElementById('navClose');
+      const backdrop = document.getElementById('navBackdrop');
+      const mobileNav = document.getElementById('mobileNav');
+
+      function openNav(){
+        document.body.classList.add('nav-open');
+        if (toggle) toggle.setAttribute('aria-expanded','true');
+        // focus first link for accessibility
+        const first = mobileNav ? mobileNav.querySelector('a.mnav-link') : null;
+        if (first) setTimeout(()=>first.focus(), 10);
+      }
+      function closeNav(){
+        document.body.classList.remove('nav-open');
+        if (toggle) toggle.setAttribute('aria-expanded','false');
+        if (toggle) toggle.focus();
+      }
+
+      if (toggle) toggle.addEventListener('click', () => {
+        if (document.body.classList.contains('nav-open')) closeNav(); else openNav();
+      });
+      if (closeBtn) closeBtn.addEventListener('click', closeNav);
+      if (backdrop) backdrop.addEventListener('click', closeNav);
+
+      // close on link click
+      document.querySelectorAll('.mnav-link').forEach(a => a.addEventListener('click', closeNav));
+
+      // close on Escape
+      document.addEventListener('keydown', (e)=>{
+        if (e.key === 'Escape' && document.body.classList.contains('nav-open')) closeNav();
+      });
+    })();
+
   </script>
 </body>
 </html>
